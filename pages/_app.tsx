@@ -1,9 +1,17 @@
 import React from "react";
-import App, { Container, AppContext } from "next/app";
+import App, { Container } from "next/app";
 import GlobalStyle from "../components/global-style";
+import {
+  AppContextType,
+  AppInitialProps,
+} from "next/dist/next-server/lib/utils";
+import { Router } from "next/dist/client/router";
 
 export default class CustomApp extends App {
-  static async getInitialProps({ Component, ctx }: AppContext) {
+  static async getInitialProps({
+    Component,
+    ctx,
+  }: AppContextType<Router>): Promise<AppInitialProps> {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -13,7 +21,7 @@ export default class CustomApp extends App {
     return { pageProps };
   }
 
-  render() {
+  render(): JSX.Element {
     const { Component, pageProps } = this.props;
 
     // Do not use this file for anything layout-related, put those in the page

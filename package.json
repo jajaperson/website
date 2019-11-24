@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "echo \"Setup testing later\"",
-    "lint": "eslint pages components utils"
+    "lint": "eslint pages/** components/** utils/**",
+    "pretest": "npm run lint"
   },
   "dependencies": {
     "next": "9.1.4",

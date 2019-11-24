@@ -1,7 +1,6 @@
 import React from "react";
-import Head from "next/head";
 
-const Home = () => (
+const Home = (): JSX.Element => (
   <p>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id hendrerit
     leo. In vehicula at magna id auctor. Proin suscipit quam et maximus egestas.
