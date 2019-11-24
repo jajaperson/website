@@ -9,7 +9,7 @@ import {
   faTwitter,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import { secondaryColor } from "../utils/theme";
+import { textColor, secondaryColor } from "../utils/theme";
 
 const IconsRow = styled.ul`
   font-size: 2em;
@@ -21,35 +21,68 @@ const IconsRow = styled.ul`
     padding-right: 40px;
     line-height: 55px;
 
-    :hover {
-      color: ${secondaryColor};
+    a {
+      text-decoration: none;
+      color: ${textColor};
+
+      :hover {
+        color: ${secondaryColor};
+      }
     }
   }
 `;
 
 const Socials = (): JSX.Element => (
   <IconsRow>
-    <li onClick={() => window.open("https://keybase.io/jajaperson")}>
-      <FontAwesomeIcon icon={faKeybase} />
+    <li>
+      <a
+        target="_blank"
+        href="https://keybase.io/jajaperson"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon={faKeybase} />
+      </a>
     </li>
-    <li onClick={() => window.open("https://github.com/jajaperson")}>
-      <FontAwesomeIcon icon={faGithub} />
+    <li>
+      <a href="https://github.com/jajaperson" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faGithub} />
+      </a>
     </li>
-    <li onClick={() => window.open("https://mastodon.social/@jajaperson")}>
-      <FontAwesomeIcon icon={faMastodon} />
+    <li>
+      <a
+        target="_blank"
+        href="https://mastodon.social/@jajaperson"
+        rel="noopener noreferrer me"
+      >
+        <FontAwesomeIcon icon={faMastodon} />
+      </a>
     </li>
-    <li
-      onClick={() =>
-        window.open("https://stackoverflow.com/users/8230473/james-jensen")
-      }
-    >
-      <FontAwesomeIcon icon={faStackOverflow} />
+    <li>
+      <a
+        target="_blank"
+        href="https://stackoverflow.com/users/8230473/james-jensen"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon={faStackOverflow} />
+      </a>
     </li>
-    <li onClick={() => window.open("https://twitter.com/jajaperson")}>
-      <FontAwesomeIcon icon={faTwitter} />
+    <li>
+      <a
+        target="_blank"
+        href="https://twitter.com/jajaperson"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon={faTwitter} />
+      </a>
     </li>
-    <li onClick={() => window.open("https://www.instagram.com/jajaperson/")}>
-      <FontAwesomeIcon icon={faInstagram} />
+    <li>
+      <a
+        target="_blank"
+        href="https://www.instagram.com/jajaperson/"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon={faInstagram} />
+      </a>
     </li>
   </IconsRow>
 );
