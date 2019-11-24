@@ -52,7 +52,7 @@ const Socials = (): JSX.Element => (
       <a
         target="_blank"
         href="https://mastodon.social/@jajaperson"
-        rel="noopener noreferrer me"
+        rel="me noopener noreferrer"
       >
         <FontAwesomeIcon icon={faMastodon} />
       </a>
