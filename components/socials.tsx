@@ -19,6 +19,7 @@ const IconsRow = styled.ul`
   li {
     display: inline;
     padding-right: 40px;
+    line-height: 55px;
 
     :hover {
       color: ${secondaryColor};
