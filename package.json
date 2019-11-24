@@ -11,6 +11,10 @@
     "pretest": "npm run lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.7",
+    "@zeit/next-css": "^1.0.1",
     "next": "9.1.4",
     "prop-types": "^15.7.2",
     "react": "16.12.0",

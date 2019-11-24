@@ -1,11 +1,15 @@
 import React from "react";
-import App, { Container } from "next/app";
-import GlobalStyle from "../components/global-style";
+import App from "next/app";
 import {
   AppContextType,
   AppInitialProps,
 } from "next/dist/next-server/lib/utils";
 import { Router } from "next/dist/client/router";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import GlobalStyle from "../components/global-style";
+
+config.autoAddCss = false;
 
 export default class CustomApp extends App {
   static async getInitialProps({
@@ -27,10 +31,10 @@ export default class CustomApp extends App {
     // Do not use this file for anything layout-related, put those in the page
     // files. Load global styles here.
     return (
-      <Container>
+      <div>
         <GlobalStyle />
         <Component {...pageProps} />
-      </Container>
+      </div>
     );
   }
 }
