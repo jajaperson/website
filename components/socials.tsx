@@ -44,7 +44,11 @@ const Socials = (): JSX.Element => (
       </a>
     </li>
     <li>
-      <a href="https://github.com/jajaperson" rel="noopener noreferrer">
+      <a
+        target="_blank"
+        href="https://github.com/jajaperson" 
+        rel="noopener noreferrer"
+      >
         <FontAwesomeIcon icon={faGithub} />
       </a>
     </li>
