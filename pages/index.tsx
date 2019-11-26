@@ -14,7 +14,7 @@ const Home = (): JSX.Element => (
       <HeroContent>
         <HeroText>
           <EmphChangingText alt="/dʒædʒ•ə•pəːs(ə)n/">
-            jajaperson
+            jaj•a•person
           </EmphChangingText>{" "}
           is a <ChangingText alt="nerd">human being</ChangingText> with mediocre
           programming and design skills.
