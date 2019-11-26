@@ -7,6 +7,7 @@ import {
   faMastodon,
   faStackOverflow,
   faTwitter,
+  faReddit,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { textColor, secondaryColor } from "../utils/theme";
@@ -77,6 +78,15 @@ const Socials = (): JSX.Element => (
         rel="noopener noreferrer"
       >
         <FontAwesomeIcon icon={faTwitter} />
+      </a>
+    </li>
+    <li>
+      <a
+        target="_blank"
+        href="https://reddit.com/u/jajaperson"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon={faReddit} />
       </a>
     </li>
     <li>
