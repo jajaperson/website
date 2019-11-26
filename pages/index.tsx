@@ -13,8 +13,8 @@ const Home = (): JSX.Element => (
     <Hero>
       <HeroContent>
         <HeroText>
-          <EmphChangingText alt="/dʒædʒ•ə•pəːs(ə)n/">
-            jaj•a•person
+          <EmphChangingText alt={"/dʒædʒ•\u200Bə•\u200Bpəːs(ə)n/"}>
+            jaj•{"\u200B"}a•{"\u200B"}person
           </EmphChangingText>{" "}
           is a <ChangingText alt="nerd">human being</ChangingText> with mediocre
           programming and design skills.
