@@ -2,6 +2,7 @@ import React from "react";
 import Document, {
   DocumentContext,
   DocumentInitialProps,
+  Html,
   Main,
   NextScript,
   Head,
@@ -40,13 +41,13 @@ export default class CustomDocument extends Document {
 
   render(): JSX.Element {
     return (
-      <html>
+      <Html lang="en">
         <Head />
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
