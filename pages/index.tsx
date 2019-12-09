@@ -9,6 +9,10 @@ const Home = (): JSX.Element => (
   <div>
     <Head>
       <title>jaj•a•person</title>
+      <meta
+        name="description"
+        content="jaj•a•person is a human being with pretty good programming and design skills."
+      />
     </Head>
     <Hero>
       <HeroContent>
