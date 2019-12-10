@@ -26,7 +26,7 @@
     "@types/react": "^16.9.12",
     "@types/styled-components": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
-    "@typescript-eslint/parser": "^2.8.0",
+    "@typescript-eslint/parser": "^2.11.0",
     "eslint": "^6.7.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.1",
