@@ -40,7 +40,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://keybase.io/jajaperson"
         rel="noopener noreferrer"
-        arial-label="@jajaperson on Keybase"
+        aria-label="@jajaperson on Keybase"
       >
         <FontAwesomeIcon icon={faKeybase} />
       </a>
@@ -50,7 +50,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://github.com/jajaperson"
         rel="noopener noreferrer"
-        arial-label="@jajaperson on GitHub"
+        aria-label="@jajaperson on GitHub"
       >
         <FontAwesomeIcon icon={faGithub} />
       </a>
@@ -60,7 +60,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://mastodon.social/@jajaperson"
         rel="me noopener noreferrer"
-        arial-label="@jajaperson on mastodon.social"
+        aria-label="@jajaperson on mastodon.social"
       >
         <FontAwesomeIcon icon={faMastodon} />
       </a>
@@ -70,7 +70,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://stackoverflow.com/users/8230473/james-jensen"
         rel="noopener noreferrer"
-        arial-label="James Jensen on StackOverflow"
+        aria-label="James Jensen on StackOverflow"
       >
         <FontAwesomeIcon icon={faStackOverflow} />
       </a>
@@ -80,7 +80,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://twitter.com/jajaperson"
         rel="noopener noreferrer"
-        arial-label="@jajaperson on Twitter"
+        aria-label="@jajaperson on Twitter"
       >
         <FontAwesomeIcon icon={faTwitter} />
       </a>
@@ -90,7 +90,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://reddit.com/u/jajaperson"
         rel="noopener noreferrer"
-        arial-label="u/jajaperson on reddit"
+        aria-label="u/jajaperson on reddit"
       >
         <FontAwesomeIcon icon={faReddit} />
       </a>
@@ -100,7 +100,7 @@ const Socials = (): JSX.Element => (
         target="_blank"
         href="https://www.instagram.com/jajaperson/"
         rel="noopener noreferrer"
-        arial-label="@jajaperson in Instagram"
+        aria-label="@jajaperson in Instagram"
       >
         <FontAwesomeIcon icon={faInstagram} />
       </a>
