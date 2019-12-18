@@ -1,10 +1,10 @@
-# jaj•a•person's website
+# [jaj•a•person's website](https://jajaperson.now.sh)
 
 yup, i finally made a website. it's completely overengineered for the
 minimalistic single page it is, but maybe i'll eventully add a blog or
 something.
 
-## uses
+## what i'm using
 
 in case you were wondering, here are the tools the site uses. as i said,
 overengineered.
