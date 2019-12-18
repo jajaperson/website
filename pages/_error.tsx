@@ -11,7 +11,7 @@ export default class CustomError extends Error {
     return (
       <div>
         <Head>
-          <title>Error {statusCode}</title>
+          <title>{statusCode ? statusCode : "Error"}</title>
         </Head>
         <Hero>
           <HeroContent>
