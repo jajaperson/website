@@ -3,6 +3,21 @@ name: CI
 on: [push]
 
 jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: install node v12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install
+        run: npm install
+      - name: next build
+        run: npm run build
   test:
     strategy:
       matrix:
