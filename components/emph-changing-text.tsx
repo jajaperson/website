@@ -1,12 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import ChangingText from "./changing-text";
-import { primaryColor, secondaryColor } from "../utils/theme";
-
-export const Emph = styled.span<{ secondary?: boolean }>`
-  color: ${({ secondary }): string =>
-    secondary ? secondaryColor : primaryColor};
-`;
+import Emph from "./emph";
 
 const EmphChangingText = ({
   alt,
