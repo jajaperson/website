@@ -16,8 +16,11 @@ export default class CustomError extends Error {
         <Hero>
           <HeroContent>
             <HeroText>
-              <Emph>Oops{statusCode ? `, Error ${statusCode}` : ""}!</Emph>{" "}
-              Something went wrong on {statusCode ? "our" : "your"} end.
+              <Emph>
+                {statusCode ? `${statusCode}. That's an error.` : "Oh no."}
+              </Emph>{" "}
+              Looks like something went wrong on {statusCode ? "our" : "your"}{" "}
+              end.
             </HeroText>
           </HeroContent>
         </Hero>
