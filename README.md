@@ -1,7 +1,7 @@
 # [jaj•a•person's website](https://jajaperson.now.sh)
 
 yup, i finally made a website. it's completely overengineered for the
-minimalistic single page it is, but maybe i'll eventully add a blog or
+minimalistic single page it is, but maybe i'll eventually add a blog or
 something.
 
 ## what i'm using
