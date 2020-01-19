@@ -2,6 +2,6 @@
   "version": 2,
   "name": "jajaperson-website",
   "alias": ["jajaperson.now.sh"],
-  "regions": ["syd1", "bom1"],
+  "regions": ["syd1"],
   "builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }
