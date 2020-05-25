@@ -4,7 +4,7 @@ https://keybase.io/jajaperson
 
 I hereby claim:
 
-  * I am an admin of https://jajaperson.now.sh
+  * I am an admin of https://jajaperson.me
   * I am jajaperson (https://keybase.io/jajaperson) on keybase.
   * I have a public key ASCkrixik-VbwjhKRUUg0H3jg9FAzDoWqENLREEwQf4M_Ao
 
@@ -20,14 +20,14 @@ To do so, I am signing this object:
       "username": "jajaperson"
     },
     "merkle_root": {
-      "ctime": 1574604368,
-      "hash": "bbc52170080c661c4c8be11fcb6aaead667e6d61ad069d03be3f5447646115c7d9a0d8b5eb05fc528223ef8f6a29d2f074300ba19c765884d54b6744b13b55e9",
-      "hash_meta": "c3a1e87a9059c8ab1d8dc3c8719816c31476d2637756ef7d6f513e21ddd21181",
-      "seqno": 10712891
+      "ctime": 1590401907,
+      "hash": "4cee67a2de6a79efe6c78ec67bce5cffefb303ff6ddbb5a8e314bbea38ebb8457bb84da4120b86081f97f0e00a39c93ac62eb5ce2b0f4fe2bf4bf653f1081fa6",
+      "hash_meta": "30af8d67bf7a9119a3443b6b59a0efe3562baf1b9aa50c4eef6b02c461d1e853",
+      "seqno": 16399194
     },
     "service": {
-      "entropy": "cwjfHJcRDMhMvIR/BolrefSb",
-      "hostname": "jajaperson.now.sh",
+      "entropy": "+E7jTapJZye/cZfpzojnYTCZ",
+      "hostname": "jajaperson.me",
       "protocol": "https:"
     },
     "type": "web_service_binding",
@@ -35,18 +35,18 @@ To do so, I am signing this object:
   },
   "client": {
     "name": "keybase.io go client",
-    "version": "5.0.0"
+    "version": "5.4.2"
   },
-  "ctime": 1574604370,
+  "ctime": 1590401938,
   "expire_in": 504576000,
-  "prev": "8cef67ff46e0d64bc9179746ef3ca8928a82c46be42773753096323326ac8bde",
-  "seqno": 46,
+  "prev": "215744b16dffcfca88e8917eee384f963935770abcec232757eed2cf34fb4915",
+  "seqno": 52,
   "tag": "signature"
 }
 
 which yields the signature:
 
-hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgpK4sYpPlW8I4SkVFINB944PRQMw6FqhDS0RBMEH+DPwKp3BheWxvYWTESpcCLsQgjO9n/0bg1kvJF5dG7zyokoqCxGvkJ3N1MJYyMyasi97EIJFgENQMlfBNEyoKvNNhfCgcfHWtiycTcdLDKT9yy/pyAgHCo3NpZ8RAZhRWBDSb7BMJBBBYnyWZEhqnpnWAPhwkH7nMPcL76IyFWg8PwD/kPIG9W99SR+XMY2C8hUEDyYb1XZWpJbEGDahzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIJzKsCpY8pfT7MxE1eVshfM+RBCSLk+XcrG+VDyfrnyAo3RhZ80CAqd2ZXJzaW9uAQ==
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgpK4sYpPlW8I4SkVFINB944PRQMw6FqhDS0RBMEH+DPwKp3BheWxvYWTESpcCNMQgIVdEsW3/z8qI6JF+7jhPljk1dwq87CMnV+7SzzT7SRXEIK/6v3piKPsqeY/h8Q5Yz4osHN5fMpzx+wfwJSJ1kGS3AgHCo3NpZ8RAA2Hcr5qm5dz/BwysIuIGX1xV3Fu40/XfqfB5eCmQJ3ObnBs7KWef0S1UZs2lu3Q0WSBwlyQRuY56A3kMPP+BCKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIHe60nH6GLLY9VLiB1pXM9OYRJHhI9Xm+PVDGoEtJ6XXo3RhZ80CAqd2ZXJzaW9uAQ==
 
 And finally, I am proving ownership of this host by posting or
 appending to this document.
