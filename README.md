@@ -1,4 +1,4 @@
-# [jaj•a•person's website](https://jajaperson.now.sh)
+# [jaj•a•person's website](https://jajaperson.me)
 
 yup, i finally made a website. it's completely overengineered for the
 minimalistic single page it is, but maybe i'll eventually add a blog or
