@@ -20,7 +20,7 @@ export default class CustomDocument extends Document {
     try {
       ctx.renderPage = async (): Promise<RenderPageResult> =>
         originalRenderPage({
-          enhanceApp: App => (props): React.ReactElement =>
+          enhanceApp: (App) => (props): React.ReactElement =>
             sheet.collectStyles(<App {...props} />),
         });
 

@@ -1,5 +1,5 @@
 const cssifyArray = (array: string[]): string =>
-  array.map(i => `"${i}"`).join(", ");
+  array.map((i) => `"${i}"`).join(", ");
 
 // Fonts
 export const bodyFont = cssifyArray([
