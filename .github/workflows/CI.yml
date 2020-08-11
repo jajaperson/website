@@ -16,10 +16,7 @@ jobs:
       - name: next build
         run: npm run build
   test:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: install node v12
