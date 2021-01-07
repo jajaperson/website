@@ -18,8 +18,8 @@ overengineered.
   social icons
 - [`prettier`](https://prettier.io) — makes code look fancy
 - [`eslint`](https://eslint.org) — for when i make mistakes
-- [`now.sh`](https://now.sh) — hosts the website _and_ automatically builds and
-  hosts previews for commits and pull requests
+- [`vercel`](https://vercel.com) — hosts the website _and_ automatically builds
+  and hosts previews for commits and pull requests
 - [`github actions`](https://github.com/features/actions) — an elegant ci and
   workflow automation solution built right into github
 - [`dependabot`](https://dependabot.com) — a friendly robot who helps keep all
