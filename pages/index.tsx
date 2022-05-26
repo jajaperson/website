@@ -11,7 +11,7 @@ const Home = (): JSX.Element => (
       <title>jaj•a•person</title>
       <meta
         name="description"
-        content="jaj•a•person is a human being studying maths and physics and occasionally coding stuff."
+        content="jaj•a•person is a human being studying maths and physics and also occasionally coding stuff sometimes."
       />
     </Head>
     <Hero>
@@ -21,7 +21,7 @@ const Home = (): JSX.Element => (
             jaj•{"\u200B"}a•{"\u200B"}person
           </EmphChangingText>{" "}
           is a <ChangingText alt="nerd">human being</ChangingText> studying
-          maths and physics and occasionally coding stuff.
+          maths and physics and also occasionally coding stuff sometimes.
         </HeroText>
         <Socials />
       </HeroContent>
