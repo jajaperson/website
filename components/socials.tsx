@@ -7,7 +7,6 @@ import {
   faMastodon,
   faStackOverflow,
   faTwitter,
-  faReddit,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { textColor, secondaryColor } from "../utils/theme";
@@ -58,16 +57,6 @@ const Socials = (): JSX.Element => (
     <li>
       <a
         target="_blank"
-        href="https://mastodon.social/@jajaperson"
-        rel="me noopener noreferrer"
-        aria-label="@jajaperson on mastodon.social"
-      >
-        <FontAwesomeIcon icon={faMastodon} />
-      </a>
-    </li>
-    <li>
-      <a
-        target="_blank"
         href="https://stackoverflow.com/users/8230473/james-jensen"
         rel="noopener noreferrer"
         aria-label="James Jensen on StackOverflow"
@@ -88,21 +77,21 @@ const Socials = (): JSX.Element => (
     <li>
       <a
         target="_blank"
-        href="https://reddit.com/u/jajaperson"
-        rel="noopener noreferrer"
-        aria-label="u/jajaperson on reddit"
-      >
-        <FontAwesomeIcon icon={faReddit} />
-      </a>
-    </li>
-    <li>
-      <a
-        target="_blank"
         href="https://www.instagram.com/jajaperson/"
         rel="noopener noreferrer"
         aria-label="@jajaperson in Instagram"
       >
         <FontAwesomeIcon icon={faInstagram} />
+      </a>
+    </li>
+    <li>
+      <a
+        target="_blank"
+        href="https://mastodon.social/@jajaperson"
+        rel="me noopener noreferrer"
+        aria-label="@jajaperson on mastodon.social"
+      >
+        <FontAwesomeIcon icon={faMastodon} />
       </a>
     </li>
   </IconsRow>

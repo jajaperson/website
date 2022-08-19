@@ -8,7 +8,7 @@ import Document, {
   Head,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-import { RenderPageResult } from "next/dist/next-server/lib/utils";
+import { RenderPageResult } from "next/dist/shared/lib/utils";
 
 export default class CustomDocument extends Document {
   static async getInitialProps(
@@ -19,9 +19,11 @@ export default class CustomDocument extends Document {
 
     try {
       ctx.renderPage = async (): Promise<RenderPageResult> =>
-        originalRenderPage({
-          enhanceApp: (App) => (props): React.ReactElement =>
-            sheet.collectStyles(<App {...props} />),
+        await originalRenderPage({
+          enhanceApp:
+            (App) =>
+            (props): React.ReactElement =>
+              sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
