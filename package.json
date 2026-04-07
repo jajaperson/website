@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "build": "./scripts/build.mjs",
+    "test": "tsx --test"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@deanc/esbuild-plugin-postcss": "^3.0.0",
+    "@types/node": "^25.5.2",
+    "@types/pretty-time": "^1.1.5",
+    "@types/yargs": "^17.0.35",
+    "async-mutex": "^0.5.0",
+    "biblatex-csl-converter": "^3.5.5",
+    "esbuild": "^0.27.7",
+    "globby": "^16.2.0",
+    "gray-matter": "^4.0.3",
+    "pretty-time": "^1.1.0",
+    "to-vfile": "^8.0.0",
+    "typescript": "^6.0.2",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0"
+  },
+  "type": "module"
+}
