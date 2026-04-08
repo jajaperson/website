@@ -7,7 +7,7 @@ import { sluggifyVaultPath } from "../build/util/path.js";
 export const contentPage: DynamicEmitter = {
 	symbol: Symbol(),
 	dynamic: true,
-	async *preProcessor(ctx, vp) {
+	async *preProcess(ctx, vp) {
 		if (!vp.endsWith(".md")) return;
 
 		const fp = join(ctx.cfg.vault, vp);
@@ -23,6 +23,7 @@ export const contentPage: DynamicEmitter = {
 			slug: sluggifyVaultPath(vp),
 			content,
 			data,
+			emitter: this.symbol,
 		};
 	},
 };

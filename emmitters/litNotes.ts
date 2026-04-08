@@ -1,13 +1,13 @@
 import { join } from "node:path/posix";
 import { DynamicEmitter } from "../build/emitters.js";
 import { readFile } from "node:fs/promises";
-import { BibLatexParser, CSLExporter } from "biblatex-csl-converter";
+import { BibLatexParser, CSLEntry, CSLExporter } from "biblatex-csl-converter";
 import { FullSlug } from "../build/util/path.js";
 
-export const litNotes: DynamicEmitter = {
+export const litNotes: DynamicEmitter<CSLEntry> = {
 	symbol: Symbol(),
 	dynamic: true,
-	async *preProcessor(ctx, vp) {
+	async *preProcess(ctx, vp) {
 		if (!vp.endsWith(".bib")) return;
 
 		const fp = join(ctx.cfg.vault, vp);
@@ -25,7 +25,8 @@ export const litNotes: DynamicEmitter = {
 			yield {
 				origin: vp,
 				slug,
-				data: { entry },
+				content: entry,
+				emitter: this.symbol,
 			};
 		}
 	},
