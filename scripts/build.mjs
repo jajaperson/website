@@ -3,11 +3,11 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import esbuild from "esbuild";
 import { styleText } from "util";
-import { Mutex } from "async-mutex";
+// import { Mutex } from "async-mutex";
 import { randomUUID } from "crypto";
 import { BUILD, CACHE_FILE } from "./constants.mjs";
 
-/** @import {Argv} from "../build/util/ctx.js" */
+/** @import {Argv} from "../src/util/ctx.js" */
 
 /** @satisfies {Argv} */
 const argv = await yargs(hideBin(process.argv))
@@ -67,24 +67,24 @@ const ctx = await esbuild.context({
 	sourcesContent: false,
 });
 
-const buildMutex = new Mutex();
+// const buildMutex = new Mutex();
 
 async function build() {
-	const release = await buildMutex.acquire();
+	// const release = await buildMutex.acquire();
 
 	await ctx.rebuild().catch((err) => {
 		console.error(`${styleText("red", "Couldn't parse:")} ${BUILD}`);
 		console.log(`Reason: ${styleText("gray", err)}`);
 		process.exit(1);
 	});
-	release();
+	// release();
 
 	// bypass module cache
 	// https://github.com/nodejs/modules/issues/307
 	const { default: build } = await import(`../${CACHE_FILE}?update=${randomUUID()}`);
 	// ^ this import is relative, so base "cacheFile" path can't be used
 
-	await build(argv, buildMutex);
+	await build(argv);
 }
 
 await build();
