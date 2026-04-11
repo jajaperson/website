@@ -3,6 +3,6 @@ import { BoilerPlate } from "./Boilerplate.js";
 
 export const ContentPage: FunctionComponent = ({ children }) => (
 	<BoilerPlate>
-		<article class="prose m-8">{children}</article>
+		<article class="prose m-8 font-serif">{children}</article>
 	</BoilerPlate>
 );

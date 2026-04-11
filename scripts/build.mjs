@@ -6,7 +6,6 @@ import { styleText } from "util";
 // import { Mutex } from "async-mutex";
 import { randomUUID } from "crypto";
 import { BUILD, CACHE_FILE } from "./constants.mjs";
-import { spawn } from "child_process";
 
 /** @import {Argv} from "../src/util/ctx.js" */
 

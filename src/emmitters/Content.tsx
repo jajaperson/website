@@ -33,7 +33,7 @@ import { ok as assert } from "devlop";
 import { Root as HtmlRoot } from "hast";
 import { VFile } from "vfile";
 import isAbsoluteUrl from "is-absolute-url";
-import { renderJsx } from "../util/renderJsx.js";
+import { renderJsx } from "../util/jsx.js";
 import { ContentPage } from "../components/pages/ContentPage.js";
 
 function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {

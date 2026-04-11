@@ -1,2 +1,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+mjx-container {
+	display: inline;
+	line-height: normal;
+}
+
+mjx-container[display="true"] {
+	display: block;
+}
+
+mjx-container svg,
+mjx-container math {
+	display: inline;
+}
