@@ -83,10 +83,12 @@ export async function* parseFiles(
 	ctx: BuildCtx,
 	all: ProcessedFile<any>[],
 ): AsyncIterable<ProcessedFile<any>> {
-	for (const k of ctx.emitterKeys) {
-		const emitter = ctx.emitters[k];
-		if ("preParse" in emitter) await emitter.preParse(ctx, all);
-	}
+	await Promise.all(
+		ctx.emitterKeys.map(async (k) => {
+			const emitter = ctx.emitters[k];
+			if ("preParse" in emitter) await emitter.preParse(ctx, all);
+		}),
+	);
 
 	for (const vf of all) {
 		const emitter = ctx.emitters[vf.emitter];
@@ -99,10 +101,12 @@ export async function* renderFiles(
 	ctx: BuildCtx,
 	all: ProcessedFile<any>[],
 ): AsyncIterableIterator<FilePath> {
-	for (const k of ctx.emitterKeys) {
-		const emitter = ctx.emitters[k];
-		if ("preRender" in emitter) await emitter.preRender(ctx, all);
-	}
+	await Promise.all(
+		ctx.emitterKeys.map(async (k) => {
+			const emitter = ctx.emitters[k];
+			if ("preRender" in emitter) await emitter.preRender(ctx, all);
+		}),
+	);
 
 	for (const vf of all) {
 		const emitter = ctx.emitters[vf.emitter];
