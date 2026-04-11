@@ -1,20 +1,24 @@
 import { ok as assert } from "devlop";
 import { BuildCtx } from "./util/ctx.js";
 import { FullSlug, FilePath, VaultPath } from "./util/path.js";
+import { flatMap } from "iterable-utilities";
 
-export interface ProcessedFile<Content = string> {
+export type ProcessedFile<Content = string> = {
 	/** Destination slug for this file once fully processed */
 	slug: FullSlug;
 	/** File in vault whence this file originated */
 	origin?: VaultPath;
-	/** Processed content of the file */
-	content: Content;
 	data?: {
 		[key: string]: any;
 	};
 	/** Symbol for the emitter responsible for this file. Should match `emitter.symbol`. */
 	emitter: symbol;
-}
+} & (Content extends void
+	? {}
+	: {
+			/** Processed content of the file */
+			content: Content;
+		});
 
 declare module "vfile" {
 	interface DataMap {

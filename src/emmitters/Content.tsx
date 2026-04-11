@@ -54,11 +54,7 @@ function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {
 
 				const resolved = isAbsoluteUrl(node.destination)
 					? node.destination
-					: (resolveSlug(
-							vf.data.file.slug,
-							sluggifyVaultPath(node.destination as VaultPath),
-							allSlugs,
-						) ?? node.destination);
+					: (resolveSlug(vf.data.file.slug, node.destination, allSlugs) ?? node.destination);
 
 				const children: PhrasingContent[] =
 					node.type === "aliasWikilink"
@@ -86,9 +82,13 @@ function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {
 				const node = n as WikilinkEmbed | AltWikilinkEmbed;
 				assert(parent && typeof index === "number", "Received orphaned wikilink embed");
 
+				const resolved = isAbsoluteUrl(node.destination)
+					? node.destination
+					: (resolveSlug(vf.data.file.slug, node.destination, allSlugs) ?? node.destination);
+
 				const image: Image = {
 					type: "image",
-					url: node.destination,
+					url: resolved,
 				};
 
 				if (node.type === "altWikilinkEmbed") image.alt = node.alt;

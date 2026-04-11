@@ -2,6 +2,7 @@
  * Based on <https://github.com/jackyzha0/quartz/blob/v4/quartz/util/path.ts>
  */
 
+import { slug as slugAnchor } from "github-slugger";
 import { dirname, relative } from "node:path/posix";
 
 /** Utility for constructing branded aliases of `string` */
@@ -106,23 +107,43 @@ export function getFileExtension(s: string): string | undefined {
  */
 export function resolveSlug(
 	src: FullSlug,
-	target: FullSlug,
+	destination: string,
 	allSlugs: Iterable<FullSlug>,
+	sluggifyDestination = true,
 ): RelativeURL | undefined {
-	const targetCanonical = target.toLowerCase().normalize("NFD");
+	const [target, anchor] = splitAnchor(destination);
+	const targetCanonical = (sluggifyDestination ? sluggifyVaultPath(target as VaultPath) : target)
+		.toLowerCase()
+		.normalize("NFD");
 
 	const matches: RelativeURL[] = [];
 
 	for (const slug of allSlugs) {
 		const slugCanonical = slug.toLowerCase().normalize("NFD");
 
-		if (slugCanonical === targetCanonical) return relative(dirname(src), slug) as RelativeURL;
+		if (slugCanonical === targetCanonical)
+			return (relative(dirname(src), slug) + anchor) as RelativeURL;
 		if (slugCanonical.endsWith("/" + targetCanonical))
 			matches.push(relative(dirname(src), slug) as RelativeURL);
 	}
-	if (matches.length === 1) return matches[0];
+	if (matches.length === 1) return (matches[0] + anchor) as RelativeURL;
 	else if (matches.length > 1)
 		throw new Error(
 			`From ${src}, the slug \`${target}\` has multiple matches: ${matches.map((m) => `\`${m}\``).join(", ")}.`,
 		);
+}
+
+/**
+ * Split a link a link and a normalized anchor
+ *
+ * @param link link to split
+ * @returns [path, anchor]
+ */
+export function splitAnchor(link: string): [string, string] {
+	let [fp, anchor] = link.split("#", 2);
+	// fp has no extension
+	if (/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
+		return [fp, anchor ? "#" + slugAnchor(anchor) : ""];
+	}
+	return [fp, anchor ? "#" + anchor : ""];
 }

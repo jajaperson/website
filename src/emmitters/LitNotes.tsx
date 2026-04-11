@@ -15,7 +15,7 @@ interface CSLAuthor {
 export class LitNotes implements DynamicEmitter<CSLEntry> {
 	symbol = Symbol();
 
-	async *preProcess(ctx: BuildCtx, vp: VaultPath): AsyncIterableIterator<ProcessedFile<CSLEntry>> {
+	async *preProcess(ctx: BuildCtx, vp: VaultPath) {
 		if (!vp.endsWith(".bib")) return;
 
 		const fp = join(ctx.cfg.vault, vp);
@@ -39,10 +39,7 @@ export class LitNotes implements DynamicEmitter<CSLEntry> {
 		}
 	}
 
-	async *parse(
-		_: BuildCtx,
-		current: ProcessedFile<CSLEntry>,
-	): AsyncIterableIterator<ProcessedFile<CSLEntry>> {
+	async *parse(_: BuildCtx, current: ProcessedFile<CSLEntry>) {
 		yield current;
 	}
 
