@@ -8,12 +8,11 @@ import {
 	sluggifyVaultPath,
 	VaultPath,
 } from "../util/path.js";
-import { Image, Link, Root as MdRoot, Node, Parent, PhrasingContent } from "mdast";
+import { Image, Link, Root as MdRoot, Parent, PhrasingContent } from "mdast";
 import { Plugin, Processor, unified } from "unified";
 import remarkParse from "remark-parse";
 import { BuildCtx } from "../util/ctx.js";
 import remarkRehype from "remark-rehype";
-import { render } from "preact-render-to-string";
 import { write } from "../util/write.js";
 import { htmlToJsx } from "../util/jsx.js";
 import remarkMath from "@jajaperson/remark-math";
@@ -34,6 +33,8 @@ import { ok as assert } from "devlop";
 import { Root as HtmlRoot } from "hast";
 import { VFile } from "vfile";
 import isAbsoluteUrl from "is-absolute-url";
+import { renderJsx } from "../util/renderJsx.js";
+import { ContentPage } from "../components/pages/ContentPage.js";
 
 function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {
 	return function () {
@@ -100,7 +101,7 @@ function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {
 	};
 }
 
-export class ContentPage implements DynamicEmitter<string, MdRoot> {
+export class Content implements DynamicEmitter<string, MdRoot> {
 	symbol = Symbol();
 
 	macros: Macros;
@@ -173,19 +174,11 @@ export class ContentPage implements DynamicEmitter<string, MdRoot> {
 		assert(this.hProcessor);
 
 		const hast = await this.hProcessor.run(current.content, new VFile({ data: { file: current } }));
-		const content = htmlToJsx(hast);
-
-		const page = (
-			<html lang="en-GB" dir="ltr">
-				<head>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				</head>
-				<body>
-					<article>{content}</article>
-				</body>
-			</html>
+		yield write(
+			ctx,
+			current.slug,
+			".html",
+			renderJsx(<ContentPage>{htmlToJsx(hast)}</ContentPage>),
 		);
-
-		yield write(ctx, current.slug, ".html", "<!DOCTYPE html>\n" + render(page));
 	}
 }
