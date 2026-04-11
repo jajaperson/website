@@ -1,10 +1,10 @@
 import { join } from "node:path/posix";
-import { DynamicEmitter, ProcessedFile } from "../src/emitters.js";
+import { DynamicEmitter, ProcessedFile } from "../emitters.js";
 import { readFile } from "node:fs/promises";
 import { BibLatexParser, CSLEntry, CSLExporter } from "biblatex-csl-converter";
-import { FullSlug, VaultPath } from "../src/util/path.js";
-import { BuildCtx } from "../src/util/ctx.js";
-import { write } from "../src/util/write.js";
+import { FullSlug, VaultPath } from "../util/path.js";
+import { BuildCtx } from "../util/ctx.js";
+import { write } from "../util/write.js";
 import { render } from "preact-render-to-string";
 
 interface CSLAuthor {
