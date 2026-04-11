@@ -1,5 +1,5 @@
 import matter from "gray-matter";
-import { DynamicEmitter, ProcessedFile } from "../src/emitters.js";
+import { DynamicEmitter, ProcessedFile } from "../emitters.js";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path/posix";
 import {
@@ -7,18 +7,18 @@ import {
 	resolveSlug as resolveSlug,
 	sluggifyVaultPath,
 	VaultPath,
-} from "../src/util/path.js";
+} from "../util/path.js";
 import { Image, Link, Root as MdRoot, Node, Parent, PhrasingContent } from "mdast";
 import { Plugin, Processor, unified } from "unified";
 import remarkParse from "remark-parse";
-import { BuildCtx } from "../src/util/ctx.js";
+import { BuildCtx } from "../util/ctx.js";
 import remarkRehype from "remark-rehype";
 import { render } from "preact-render-to-string";
-import { write } from "../src/util/write.js";
-import { htmlToJsx } from "../src/util/jsx.js";
+import { write } from "../util/write.js";
+import { htmlToJsx } from "../util/jsx.js";
 import remarkMath from "@jajaperson/remark-math";
 import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
-import { loadMacrosFromPreamble, Macros } from "../src/util/loadPreamble.js";
+import { loadMacrosFromPreamble, Macros } from "../util/loadPreamble.js";
 import remarkGfm from "remark-gfm";
 import remarkInlineFootnote from "remark-inline-footnote";
 import { wikilink } from "micromark-extension-wikilink-syntax";

@@ -1,7 +1,6 @@
 import { ok as assert } from "devlop";
 import { BuildCtx } from "./util/ctx.js";
 import { FullSlug, FilePath, VaultPath } from "./util/path.js";
-import { VFile } from "vfile";
 
 export interface ProcessedFile<Content = string> {
 	/** Destination slug for this file once fully processed */

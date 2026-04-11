@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
-import { ContentPage } from "./emmitters/Content.js";
-import { LitNotes } from "./emmitters/LitNotes.js";
+import { ContentPage } from "./src/emmitters/Content.js";
+import { LitNotes } from "./src/emmitters/LitNotes.js";
 
 import { BuildConfig } from "./src/types.js";
 

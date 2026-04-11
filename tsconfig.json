@@ -15,5 +15,5 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	},
-	"include": ["**/*.mjs", "**/*.ts", "emmitters/Content.tsx", "emmitters/LitNotes.tsx"]
+	"include": ["**/*.mjs", "**/*.ts", "src/emmitters/Content.tsx", "src/emmitters/LitNotes.tsx"]
 }
