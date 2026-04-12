@@ -3,7 +3,6 @@
  */
 
 import { slug as slugAnchor } from "github-slugger";
-import { dirname, relative } from "node:path/posix";
 import { ProcessedFile } from "../emitters.js";
 
 /** Utility for constructing branded aliases of `string` */
@@ -136,8 +135,8 @@ export function resolveSlugToFile<T>(
  */
 export function splitAnchor(link: string): [string, string, string] {
 	let [fp, anchor] = link.split("#", 2);
-	// fp has no extension
-	if (!/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
+	// fp has no extension => markdown
+	if (!anchor?.startsWith("^") && !/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
 		return [fp, anchor ? "#" + slugAnchor(anchor) : "", anchor ?? ""];
 	}
 	return [fp, anchor ? "#" + anchor : "", anchor];

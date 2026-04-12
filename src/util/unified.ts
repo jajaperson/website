@@ -6,6 +6,7 @@ import remarkMath from "@jajaperson/remark-math";
 import remarkGfm from "remark-gfm";
 import remarkInlineFootnote from "remark-inline-footnote";
 import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
+import rehypeStarryNight from "rehype-starry-night";
 import { ok as assert } from "devlop";
 import type { PhrasingContent, Root as MdRoot } from "mdast";
 import type {
@@ -24,6 +25,8 @@ import { ElementContent, Root as HtmlRoot } from "hast";
 import { ProcessedFile } from "../emitters.js";
 import { dirname, relative } from "node:path/posix";
 import { Handler, Handlers } from "mdast-util-to-hast";
+import { all as allGrammars } from "@wooorm/starry-night";
+import { rehypeBlockId, remarkBlockId } from "remark-rehype-block-id";
 
 export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 	return unified()
@@ -31,6 +34,7 @@ export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 		.use(remarkMath)
 		.use(remarkGfm)
 		.use(remarkInlineFootnote)
+		.use(remarkBlockId)
 		.use(wikilinkParse()) as unknown as Processor<MdRoot, MdRoot, MdRoot>;
 }
 
@@ -75,19 +79,24 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 
 	function handleWikilink(alias: boolean): Handler {
 		return function (state, node: Wikilink | AliasWikilink): ElementContent {
-			const curSlug = state.options.file?.data.file?.slug;
-			assert(typeof curSlug === "string", "expected ProcessedFile in data");
+			const current = state.options.file?.data.file;
+			assert(current, "expected ProcessedFile in data");
+			const curSlug = current.slug;
 
 			if (!isAbsoluteUrl(node.destination)) {
 				const [target, anchor, rawAnchor] = splitAnchor(node.destination);
-				const pf = resolveSlugToFile(target, all);
+				const isToBlock = typeof rawAnchor === "string" && rawAnchor.startsWith("^");
+				// bodge
+				const trueAnchor = isToBlock ? anchor : "#" + rawAnchor;
+
+				const pf = target ? resolveSlugToFile(target, all) : state.options.file?.data.file;
 				if (pf) {
-					const resolved = relative(dirname(curSlug), pf.slug) + anchor;
+					const resolved = target ? relative(dirname(curSlug), pf.slug) + trueAnchor : trueAnchor;
 					if (alias) {
 						return {
 							type: "element",
 							tagName: "a",
-							properties: { href: resolved, class: "broken" },
+							properties: { href: resolved },
 							children: state.all(node),
 						};
 					} else {
@@ -96,10 +105,10 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 								return {
 									type: "element",
 									tagName: "a",
-									properties: { href: resolved, class: "broken" },
+									properties: { href: resolved },
 									children: state.all(mathLinkPipeline.parse(pf.data.mathLink).children[0]),
 								};
-							} else if (rawAnchor.startsWith("^")) {
+							} else if (isToBlock) {
 								const blockId = rawAnchor.slice(1);
 								if (
 									typeof pf.data["mathLink-blocks"] === "object" &&
@@ -125,7 +134,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 							children: [
 								{
 									type: "text",
-									value: rawAnchor ? `${node.destination} > ${rawAnchor}` : node.destination,
+									value: rawAnchor || node.destination,
 								},
 							],
 						};
@@ -140,7 +149,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 							: [
 									{
 										type: "text",
-										value: node.destination,
+										value: rawAnchor || node.destination,
 									},
 								],
 					};
@@ -200,7 +209,12 @@ export function createHtmlProcessor(
 	},
 ): Processor<undefined, MdRoot, HtmlRoot> {
 	return unified()
-		.use(remarkRehype, { allowDangerousHtml: true, handlers: wikilinkHandlers(all) })
+		.use(remarkRehype, {
+			allowDangerousHtml: true,
+			handlers: wikilinkHandlers(all),
+			passThrough: ["blockId"],
+		})
+		.use(rehypeBlockId)
 		.use(rehypeSlug)
 		.use(
 			rehypeMathJaxSvg,
@@ -208,5 +222,6 @@ export function createHtmlProcessor(
 			{
 				tex: { macros },
 			},
-		);
+		)
+		.use(rehypeStarryNight, { grammars: allGrammars });
 }

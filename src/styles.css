@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import "@wooorm/starry-night/style/both";
 
 mjx-container {
 	display: inline;
@@ -13,4 +14,8 @@ mjx-container[display="true"] {
 mjx-container svg,
 mjx-container math {
 	display: inline;
+}
+
+a.broken {
+	@apply text-gray-500 cursor-not-allowed;
 }
