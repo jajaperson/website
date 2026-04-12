@@ -26,6 +26,7 @@
     "is-absolute-url": "^5.0.0",
     "iterable-utilities": "^3.2.3",
     "mdast-util-callout": "^0.0.0",
+    "mdast-util-to-hast": "^13.2.1",
     "mdast-util-wikilink-syntax": "^2.0.0",
     "micromark-extension-callout": "^0.0.0",
     "micromark-extension-wikilink-syntax": "^2.0.0",

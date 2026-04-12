@@ -1,7 +1,6 @@
 import type { Plugin, Processor } from "unified";
 import { unified } from "unified";
-import type { FullSlug } from "./path.js";
-import { resolveSlugToFile } from "./path.js";
+import { resolveSlugToFile, splitAnchor } from "./path.js";
 import remarkParse from "remark-parse";
 import remarkMath from "@jajaperson/remark-math";
 import remarkGfm from "remark-gfm";
@@ -9,7 +8,7 @@ import remarkInlineFootnote from "remark-inline-footnote";
 import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
 import { SKIP, visit } from "unist-util-visit";
 import { ok as assert } from "devlop";
-import type { Image, Link, Parent, PhrasingContent, Root as MdRoot } from "mdast";
+import type { Image, Link, Parent, PhrasingContent, Root as MdRoot, Node as MdNode } from "mdast";
 import type {
 	AliasWikilink,
 	AltWikilinkEmbed,
@@ -22,22 +21,18 @@ import isAbsoluteUrl from "is-absolute-url";
 import { Macros } from "./loadPreamble.js";
 import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
-import { Root as HtmlRoot } from "hast";
+import { ElementContent, Root as HtmlRoot } from "hast";
 import { ProcessedFile } from "../emitters.js";
 import { dirname, relative } from "node:path/posix";
-import { slug as slugAnchor } from "github-slugger";
+import { Handler, Handlers } from "mdast-util-to-hast";
 
-export function createMdProcessor({
-	all,
-}: {
-	all: ProcessedFile[];
-}): Processor<MdRoot, MdRoot, MdRoot> {
+export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 	return unified()
 		.use(remarkParse)
 		.use(remarkMath)
 		.use(remarkGfm)
 		.use(remarkInlineFootnote)
-		.use(wikilinkPlugin(all)) as unknown as Processor<MdRoot, MdRoot, MdRoot>;
+		.use(wikilinkParse()) as unknown as Processor<MdRoot, MdRoot, MdRoot>;
 }
 
 /**
@@ -57,11 +52,7 @@ export function extractPhrasing(tree: MdRoot): PhrasingContent[] {
 	return [];
 }
 
-const blockAnchorRegex = /#\^(\w+)$/;
-
-function wikilinkPlugin(all: ProcessedFile[]): Plugin {
-	const mathLinkPipeline = unified().use(remarkParse).use(remarkMath);
-
+function wikilinkParse(): Plugin {
 	return function () {
 		const data = this.data();
 
@@ -70,99 +61,153 @@ function wikilinkPlugin(all: ProcessedFile[]): Plugin {
 
 		micromarkExtensions.push(wikilink());
 		fromMarkdownExtensions.push(wikilinkFromMarkdown());
-
-		return function (tree, vf) {
-			visit(tree, ["wikilink", "aliasWikilink"], function (n, index, parent: Parent) {
-				assert(typeof vf.data.file?.slug === "string", "expected ProcessedFile in data");
-
-				const node = n as Wikilink | AliasWikilink;
-				assert(parent && typeof index === "number", "Received orphaned wikilink");
-
-				let resolved = node.destination;
-				let children: PhrasingContent[] =
-					node.type === "aliasWikilink"
-						? node.children
-						: [
-								{
-									type: "text",
-									value: node.destination.split("#", 2).join(" > "),
-								},
-							];
-
-				if (!isAbsoluteUrl(node.destination)) {
-					const match = resolveSlugToFile(node.destination, all);
-					if (match) {
-						const [pf, anchor] = match;
-						resolved = relative(dirname(vf.data.file.slug), pf.slug) + anchor;
-						if (node.type === "wikilink" && pf.data) {
-							if (anchor === "") {
-								if (typeof pf.data.mathLink === "string")
-									children = extractPhrasing(mathLinkPipeline.parse(String(pf.data.mathLink)));
-							} else {
-								const blockId = node.destination.match(blockAnchorRegex);
-								if (
-									blockId &&
-									typeof pf.data["mathLink-blocks"] === "object" &&
-									typeof pf.data["mathLink-blocks"][blockId[1]] === "string"
-								)
-									children = extractPhrasing(
-										mathLinkPipeline.parse(pf.data["mathLink-blocks"][blockId[1]]),
-									);
-							}
-						}
-					}
-				}
-
-				const link: Link = {
-					type: "link",
-					url: resolved,
-					children,
-				};
-
-				parent.children[index] = link;
-				return SKIP;
-			});
-
-			visit(tree, ["wikilinkEmbed", "altWikilinkEmbed"], function (n, index, parent: Parent) {
-				assert(typeof vf.data.file?.slug === "string", "expected ProcessedFile in data");
-
-				const node = n as WikilinkEmbed | AltWikilinkEmbed;
-				assert(parent && typeof index === "number", "Received orphaned wikilink embed");
-
-				let resolved = node.destination;
-
-				if (!isAbsoluteUrl(node.destination)) {
-					const match = resolveSlugToFile(node.destination, all);
-					if (match) {
-						const [pf, anchor] = match;
-						resolved = relative(dirname(vf.data.file.slug), pf.slug) + anchor;
-					}
-				}
-
-				const image: Image = {
-					type: "image",
-					url: resolved,
-				};
-
-				if (node.type === "altWikilinkEmbed") image.alt = node.alt;
-
-				parent.children[index] = image;
-				return SKIP;
-			});
-		};
 	};
 }
 
-export function createHtmlProcessor({
-	macros,
-}: {
-	macros: Macros;
-}): Processor<undefined, MdRoot, HtmlRoot> {
-	return unified().use(remarkRehype, { allowDangerousHtml: true }).use(rehypeSlug).use(
-		rehypeMathJaxSvg,
-		// @ts-ignore don't really know why
-		{
-			tex: { macros },
-		},
-	);
+function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
+	const mathLinkPipeline = unified().use(remarkParse).use(remarkMath);
+
+	return {
+		wikilink: handleWikilink(false),
+		aliasWikilink: handleWikilink(true),
+		wikilinkEmbed: handleWikilinkEmbed(false),
+		altWikilinkEmbed: handleWikilinkEmbed(true),
+	};
+
+	function handleWikilink(alias: boolean): Handler {
+		return function (state, node: Wikilink | AliasWikilink): ElementContent {
+			const curSlug = state.options.file?.data.file?.slug;
+			assert(typeof curSlug === "string", "expected ProcessedFile in data");
+
+			if (!isAbsoluteUrl(node.destination)) {
+				const [target, anchor, rawAnchor] = splitAnchor(node.destination);
+				const pf = resolveSlugToFile(target, all);
+				if (pf) {
+					const resolved = relative(dirname(curSlug), pf.slug) + anchor;
+					if (alias) {
+						return {
+							type: "element",
+							tagName: "a",
+							properties: { href: node.destination, class: "broken" },
+							children: state.all(node),
+						};
+					} else {
+						if (pf.data) {
+							if (rawAnchor === "" && typeof pf.data.mathLink === "string") {
+								return {
+									type: "element",
+									tagName: "a",
+									properties: { href: node.destination, class: "broken" },
+									children: state.all(mathLinkPipeline.parse(pf.data.mathLink).children[0]),
+								};
+							} else if (rawAnchor.startsWith("^")) {
+								const blockId = rawAnchor.slice(1);
+								if (
+									typeof pf.data["mathLink-blocks"] === "object" &&
+									typeof pf.data["mathLink-blocks"][blockId] === "string"
+								) {
+									return {
+										type: "element",
+										tagName: "a",
+										properties: { href: node.destination },
+										children: state.all(
+											mathLinkPipeline.parse(pf.data["mathLink-blocks"][blockId]).children[0],
+										),
+									};
+								}
+							}
+						}
+
+						// Fallback for non-broken, non-aliased links
+						return {
+							type: "element",
+							tagName: "a",
+							properties: { href: node.destination },
+							children: [
+								{
+									type: "text",
+									value: rawAnchor ? `${node.destination} > ${rawAnchor}` : node.destination,
+								},
+							],
+						};
+					}
+				} else {
+					return {
+						type: "element",
+						tagName: "a",
+						properties: { href: node.destination, class: "broken" },
+						children: alias
+							? state.all(node)
+							: [
+									{
+										type: "text",
+										value: node.destination,
+									},
+								],
+					};
+				}
+			} else {
+				return {
+					type: "element",
+					tagName: "a",
+					properties: { href: node.destination },
+					children: alias
+						? state.all(node)
+						: [
+								{
+									type: "text",
+									value: node.destination,
+								},
+							],
+				};
+			}
+		};
+	}
+
+	function handleWikilinkEmbed(alias: boolean): Handler {
+		return function (state, node: WikilinkEmbed | AltWikilinkEmbed): ElementContent {
+			const curSlug = state.options.file?.data.file?.slug;
+			assert(typeof curSlug === "string", "expected ProcessedFile in data");
+
+			let resolved = node.destination;
+			if (!isAbsoluteUrl(resolved)) {
+				const [target, anchor, rawAnchor] = splitAnchor(node.destination);
+				const pf = resolveSlugToFile(target, all);
+				if (pf) resolved = relative(dirname(curSlug), pf.slug) + anchor;
+			}
+
+			let alt: string | undefined = undefined;
+			if (alias) {
+				assert(node.type === "altWikilinkEmbed", "expected altWikiLink");
+				alt = node.alt;
+			}
+
+			return {
+				type: "element",
+				tagName: "img",
+				properties: { src: resolved, alt },
+				children: [],
+			};
+		};
+	}
+}
+
+export function createHtmlProcessor(
+	all: ProcessedFile<any>[],
+	{
+		macros,
+	}: {
+		macros: Macros;
+	},
+): Processor<undefined, MdRoot, HtmlRoot> {
+	return unified()
+		.use(remarkRehype, { allowDangerousHtml: true, handlers: wikilinkHandlers(all) })
+		.use(rehypeSlug)
+		.use(
+			rehypeMathJaxSvg,
+			// @ts-ignore don't really know why
+			{
+				tex: { macros },
+			},
+		);
 }

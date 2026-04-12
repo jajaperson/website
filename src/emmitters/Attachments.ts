@@ -22,10 +22,6 @@ export class Attachments implements DynamicEmitter<void> {
 		};
 	}
 
-	async *parse(_: BuildCtx, current: never) {
-		yield current;
-	}
-
 	async *render(ctx: BuildCtx, current: ProcessedFile<void>) {
 		const { origin, slug } = current;
 

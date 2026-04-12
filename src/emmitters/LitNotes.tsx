@@ -9,11 +9,6 @@ import { render } from "preact-render-to-string";
 import { renderJsx } from "../util/jsx.js";
 import { LitNotePage } from "../components/pages/LitNotePage.js";
 
-interface CSLAuthor {
-	given: string;
-	family: string;
-}
-
 export class LitNotes implements DynamicEmitter<CSLEntry> {
 	symbol = Symbol();
 
@@ -39,10 +34,6 @@ export class LitNotes implements DynamicEmitter<CSLEntry> {
 				emitter: this.symbol,
 			};
 		}
-	}
-
-	async *parse(_: BuildCtx, current: ProcessedFile<CSLEntry>) {
-		yield current;
 	}
 
 	async *render(ctx: BuildCtx, current: ProcessedFile<CSLEntry>) {

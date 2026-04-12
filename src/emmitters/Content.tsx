@@ -52,7 +52,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	}
 
 	preParse(_: BuildCtx, all: ProcessedFile<string>[]): void {
-		this.mdProcessor = createMdProcessor({ all });
+		this.mdProcessor = createMdProcessor();
 	}
 
 	async *parse(ctx: BuildCtx, current: ProcessedFile<string>, all: ProcessedFile<string>[]) {
@@ -71,7 +71,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	}
 
 	preRender(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void {
-		this.hProcessor = createHtmlProcessor({ macros: this.macros });
+		this.hProcessor = createHtmlProcessor(all, { macros: this.macros });
 	}
 
 	async *render(ctx: BuildCtx, current: ProcessedFile<MdRoot>) {
@@ -82,7 +82,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 			ctx,
 			current.slug,
 			".html",
-			renderJsx(<ContentPage>{htmlToJsx(hast)}</ContentPage>),
+			renderJsx(<ContentPage title={current.slug}>{htmlToJsx(hast)}</ContentPage>),
 		);
 	}
 }

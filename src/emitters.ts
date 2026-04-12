@@ -41,7 +41,7 @@ export interface DynamicEmitter<
 
 	preParse?(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void;
 
-	parse(
+	parse?(
 		ctx: BuildCtx,
 		current: ProcessedFile<PreContent>,
 		all: ProcessedFile<any>[],
@@ -92,7 +92,11 @@ export async function* parseFiles(
 	for (const vf of all) {
 		const emitter = ctx.emitters[vf.emitter];
 		assert(isDynamic(emitter), "expected dynamic emitter");
-		yield* emitter.parse(ctx, vf, all);
+		if (typeof emitter.parse === "function") {
+			yield* emitter.parse(ctx, vf, all);
+		} else {
+			yield vf;
+		}
 	}
 }
 

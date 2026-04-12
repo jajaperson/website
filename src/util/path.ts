@@ -100,17 +100,16 @@ export function getFileExtension(s: string): string | undefined {
  * are multiple matches... well then the vault author was irresponsible, and
  * we throw.
  *
- * @param destination the target slug
+ * @param target the target slug (without an anchor)
  * @param all files to search through
  * @param sluggifyDestination if true, the destination is sluggified before searching
- * @returns [matched file, anchor of slug]
+ * @returns [matched file, normalized anchor, raw anchor]
  */
 export function resolveSlugToFile<T>(
-	destination: string,
+	target: string,
 	all: Iterable<ProcessedFile<T>>,
 	sluggifyDestination = true,
-): [ProcessedFile<T>, string] | undefined {
-	const [target, anchor] = splitAnchor(destination);
+): ProcessedFile<T> | undefined {
 	const targetCanonical = (sluggifyDestination ? sluggifyVaultPath(target as VaultPath) : target)
 		.toLowerCase()
 		.normalize("NFD");
@@ -119,10 +118,10 @@ export function resolveSlugToFile<T>(
 
 	for (const vf of all) {
 		const slugCanonical = vf.slug.toLowerCase().normalize("NFD");
-		if (slugCanonical === targetCanonical) return [vf, anchor];
+		if (slugCanonical === targetCanonical) return vf;
 		if (slugCanonical.endsWith("/" + targetCanonical)) matches.push(vf);
 	}
-	if (matches.length === 1) return [matches[0], anchor];
+	if (matches.length === 1) return matches[0];
 	else if (matches.length !== 0)
 		throw new Error(
 			`The slug \`${target}\` has multiple matches: ${matches.map((m) => `\`${m}\``).join(", ")}.`,
@@ -133,13 +132,13 @@ export function resolveSlugToFile<T>(
  * Split a link a link and a normalized anchor
  *
  * @param link link to split
- * @returns [path, anchor]
+ * @returns [path, #normalized anchor, raw anchor]
  */
-export function splitAnchor(link: string): [string, string] {
+export function splitAnchor(link: string): [string, string, string] {
 	let [fp, anchor] = link.split("#", 2);
 	// fp has no extension
 	if (!/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
-		return [fp, anchor ? "#" + slugAnchor(anchor) : ""];
+		return [fp, anchor ? "#" + slugAnchor(anchor) : "", anchor ?? ""];
 	}
-	return [fp, anchor ? "#" + anchor : ""];
+	return [fp, anchor ? "#" + anchor : "", anchor];
 }
