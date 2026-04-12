@@ -4,6 +4,7 @@
 
 import { slug as slugAnchor } from "github-slugger";
 import { dirname, relative } from "node:path/posix";
+import { ProcessedFile } from "../emitters.js";
 
 /** Utility for constructing branded aliases of `string` */
 type SlugLike<T> = string & { __brand: T };
@@ -99,37 +100,32 @@ export function getFileExtension(s: string): string | undefined {
  * are multiple matches... well then the vault author was irresponsible, and
  * we throw.
  *
- * @param src The source slug (i.e. the page we are linking _from_)
- * @param target The target slug
- * @param allSlugs An iterable of all slugs in the website
- * @returns The resolved slug, or `undefined` if no matches were found.
- * @throws {Error} if there are multiple matches
+ * @param destination the target slug
+ * @param all files to search through
+ * @param sluggifyDestination if true, the destination is sluggified before searching
+ * @returns [matched file, anchor of slug]
  */
-export function resolveSlug(
-	src: FullSlug,
+export function resolveSlugToFile<T>(
 	destination: string,
-	allSlugs: Iterable<FullSlug>,
+	all: Iterable<ProcessedFile<T>>,
 	sluggifyDestination = true,
-): RelativeURL | undefined {
+): [ProcessedFile<T>, string] | undefined {
 	const [target, anchor] = splitAnchor(destination);
 	const targetCanonical = (sluggifyDestination ? sluggifyVaultPath(target as VaultPath) : target)
 		.toLowerCase()
 		.normalize("NFD");
 
-	const matches: RelativeURL[] = [];
+	const matches: ProcessedFile<T>[] = [];
 
-	for (const slug of allSlugs) {
-		const slugCanonical = slug.toLowerCase().normalize("NFD");
-
-		if (slugCanonical === targetCanonical)
-			return (relative(dirname(src), slug) + anchor) as RelativeURL;
-		if (slugCanonical.endsWith("/" + targetCanonical))
-			matches.push(relative(dirname(src), slug) as RelativeURL);
+	for (const vf of all) {
+		const slugCanonical = vf.slug.toLowerCase().normalize("NFD");
+		if (slugCanonical === targetCanonical) return [vf, anchor];
+		if (slugCanonical.endsWith("/" + targetCanonical)) matches.push(vf);
 	}
-	if (matches.length === 1) return (matches[0] + anchor) as RelativeURL;
-	else if (matches.length > 1)
+	if (matches.length === 1) return [matches[0], anchor];
+	else if (matches.length !== 0)
 		throw new Error(
-			`From ${src}, the slug \`${target}\` has multiple matches: ${matches.map((m) => `\`${m}\``).join(", ")}.`,
+			`The slug \`${target}\` has multiple matches: ${matches.map((m) => `\`${m}\``).join(", ")}.`,
 		);
 }
 
@@ -142,7 +138,7 @@ export function resolveSlug(
 export function splitAnchor(link: string): [string, string] {
 	let [fp, anchor] = link.split("#", 2);
 	// fp has no extension
-	if (/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
+	if (!/(\/|^)[^\/.]+\.[^\/]+$/.test(fp)) {
 		return [fp, anchor ? "#" + slugAnchor(anchor) : ""];
 	}
 	return [fp, anchor ? "#" + anchor : ""];

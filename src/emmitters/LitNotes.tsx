@@ -6,6 +6,8 @@ import { FullSlug, VaultPath } from "../util/path.js";
 import { BuildCtx } from "../util/ctx.js";
 import { write } from "../util/write.js";
 import { render } from "preact-render-to-string";
+import { renderJsx } from "../util/jsx.js";
+import { LitNotePage } from "../components/pages/LitNotePage.js";
 
 interface CSLAuthor {
 	given: string;
@@ -44,65 +46,6 @@ export class LitNotes implements DynamicEmitter<CSLEntry> {
 	}
 
 	async *render(ctx: BuildCtx, current: ProcessedFile<CSLEntry>) {
-		const cit = current.content;
-		const title = typeof cit.title === "string" ? cit.title : "Untitled";
-		const authors: CSLAuthor[] = Array.isArray(cit.author) ? cit.author : [];
-
-		const Authors = () => <p>{authors.map((a) => `${a.given} ${a.family}`).join(" • ")}</p>;
-		const Title = () => <h1 dangerouslySetInnerHTML={{ __html: title }} />;
-		const Ident = () =>
-			typeof cit.DOI === "string" ? (
-				<a href={`https://doi.org/${cit.DOI}`}>{cit.DOI}</a>
-			) : typeof cit.ISBN === "string" ? (
-				<a
-					href={
-						typeof cit.URL === "string"
-							? cit.URL
-							: `https://en.wikipedia.org/wiki/Special:BookSources/${cit.ISBN.split(" ")[0]}`
-					}
-				>
-					{cit.ISBN.split(" ")[0]}
-				</a>
-			) : typeof cit.URL === "string" ? (
-				<a href={cit.URL} class="external">
-					{cit.URL}
-				</a>
-			) : null;
-		const Container = () =>
-			typeof cit["container-title"] === "string" ? (
-				<p>
-					in <em dangerouslySetInnerHTML={{ __html: cit["container-title"] }}></em>
-				</p>
-			) : null;
-		const Abstract = () =>
-			typeof cit.abstract === "string" ? (
-				<blockquote class="callout abstract" data-callout="abstract">
-					<div class="callout-title">
-						<div class="callout-icon" />
-						<div class="callout-title-inner">
-							<p>Abstract</p>
-						</div>
-					</div>
-					<div class="callout-content">
-						<p dangerouslySetInnerHTML={{ __html: cit.abstract }} />
-					</div>
-				</blockquote>
-			) : null;
-
-		const page = (
-			<html lang="en-GB" dir="ltr">
-				<body>
-					<article>
-						<Authors />
-						<Title />
-						<Ident />
-						<Container />
-						<Abstract />
-					</article>
-				</body>
-			</html>
-		);
-
-		yield write(ctx, current.slug, ".html", "<!DOCTYPE html>\n" + render(page));
+		yield write(ctx, current.slug, ".html", renderJsx(<LitNotePage entry={current.content} />));
 	}
 }

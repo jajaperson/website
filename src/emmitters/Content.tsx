@@ -1,105 +1,21 @@
 import matter from "gray-matter";
-import { DynamicEmitter, ProcessedFile } from "../emitters.js";
+import type { DynamicEmitter, ProcessedFile } from "../emitters.js";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path/posix";
-import {
-	FullSlug,
-	resolveSlug as resolveSlug,
-	sluggifyVaultPath,
-	VaultPath,
-} from "../util/path.js";
-import { Image, Link, Root as MdRoot, Parent, PhrasingContent } from "mdast";
-import { Plugin, Processor, unified } from "unified";
-import remarkParse from "remark-parse";
-import { BuildCtx } from "../util/ctx.js";
-import remarkRehype from "remark-rehype";
+import { sluggifyVaultPath } from "../util/path.js";
+import type { VaultPath } from "../util/path.js";
+import type { Root as MdRoot } from "mdast";
+import type { Processor } from "unified";
+import type { BuildCtx } from "../util/ctx.js";
 import { write } from "../util/write.js";
 import { htmlToJsx } from "../util/jsx.js";
-import remarkMath from "@jajaperson/remark-math";
-import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
 import { loadMacrosFromPreamble, Macros } from "../util/loadPreamble.js";
-import remarkGfm from "remark-gfm";
-import remarkInlineFootnote from "remark-inline-footnote";
-import { wikilink } from "micromark-extension-wikilink-syntax";
-import {
-	AliasWikilink,
-	AltWikilinkEmbed,
-	Wikilink,
-	WikilinkEmbed,
-	wikilinkFromMarkdown,
-} from "mdast-util-wikilink-syntax";
-import { SKIP, visit } from "unist-util-visit";
 import { ok as assert } from "devlop";
-import { Root as HtmlRoot } from "hast";
+import type { Root as HtmlRoot } from "hast";
 import { VFile } from "vfile";
-import isAbsoluteUrl from "is-absolute-url";
 import { renderJsx } from "../util/jsx.js";
 import { ContentPage } from "../components/pages/ContentPage.js";
-
-function wikilinkPlugin(allSlugs: FullSlug[]): Plugin {
-	return function () {
-		const data = this.data();
-
-		const micromarkExtensions = (data.micromarkExtensions ??= []);
-		const fromMarkdownExtensions = (data.fromMarkdownExtensions ??= []);
-
-		micromarkExtensions.push(wikilink());
-		fromMarkdownExtensions.push(wikilinkFromMarkdown());
-
-		return function (tree, vf) {
-			visit(tree, ["wikilink", "aliasWikilink"], function (n, index, parent: Parent) {
-				assert(typeof vf.data.file?.slug === "string", "expected ProcessedFile in data");
-
-				const node = n as Wikilink | AliasWikilink;
-				assert(parent && typeof index === "number", "Received orphaned wikilink");
-
-				const resolved = isAbsoluteUrl(node.destination)
-					? node.destination
-					: (resolveSlug(vf.data.file.slug, node.destination, allSlugs) ?? node.destination);
-
-				const children: PhrasingContent[] =
-					node.type === "aliasWikilink"
-						? node.children
-						: [
-								{
-									type: "text",
-									value: node.destination,
-								},
-							];
-
-				const link: Link = {
-					type: "link",
-					url: resolved,
-					children,
-				};
-
-				parent.children[index] = link;
-				return SKIP;
-			});
-
-			visit(tree, ["wikilinkEmbed", "altWikilinkEmbed"], function (n, index, parent: Parent) {
-				assert(typeof vf.data.file?.slug === "string", "expected ProcessedFile in data");
-
-				const node = n as WikilinkEmbed | AltWikilinkEmbed;
-				assert(parent && typeof index === "number", "Received orphaned wikilink embed");
-
-				const resolved = isAbsoluteUrl(node.destination)
-					? node.destination
-					: (resolveSlug(vf.data.file.slug, node.destination, allSlugs) ?? node.destination);
-
-				const image: Image = {
-					type: "image",
-					url: resolved,
-				};
-
-				if (node.type === "altWikilinkEmbed") image.alt = node.alt;
-
-				parent.children[index] = image;
-				return SKIP;
-			});
-		};
-	};
-}
+import { createHtmlProcessor, createMdProcessor } from "../util/unified.js";
 
 export class Content implements DynamicEmitter<string, MdRoot> {
 	symbol = Symbol();
@@ -136,14 +52,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	}
 
 	preParse(_: BuildCtx, all: ProcessedFile<string>[]): void {
-		const allSlugs = all.map((f) => f.slug);
-
-		this.mdProcessor = unified()
-			.use(remarkParse)
-			.use(remarkMath)
-			.use(remarkGfm)
-			.use(remarkInlineFootnote)
-			.use(wikilinkPlugin(allSlugs)) as unknown as Processor<MdRoot, MdRoot, MdRoot>;
+		this.mdProcessor = createMdProcessor({ all });
 	}
 
 	async *parse(ctx: BuildCtx, current: ProcessedFile<string>, all: ProcessedFile<string>[]) {
@@ -162,12 +71,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	}
 
 	preRender(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void {
-		this.hProcessor = unified()
-			.use(remarkRehype, { allowDangerousHtml: true })
-			// @ts-ignore don't really know why
-			.use(rehypeMathJaxSvg, {
-				tex: { macros: this.macros },
-			});
+		this.hProcessor = createHtmlProcessor({ macros: this.macros });
 	}
 
 	async *render(ctx: BuildCtx, current: ProcessedFile<MdRoot>) {
