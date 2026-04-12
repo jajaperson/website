@@ -6,9 +6,8 @@ import remarkMath from "@jajaperson/remark-math";
 import remarkGfm from "remark-gfm";
 import remarkInlineFootnote from "remark-inline-footnote";
 import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
-import { SKIP, visit } from "unist-util-visit";
 import { ok as assert } from "devlop";
-import type { Image, Link, Parent, PhrasingContent, Root as MdRoot, Node as MdNode } from "mdast";
+import type { PhrasingContent, Root as MdRoot } from "mdast";
 import type {
 	AliasWikilink,
 	AltWikilinkEmbed,
@@ -88,7 +87,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 						return {
 							type: "element",
 							tagName: "a",
-							properties: { href: node.destination, class: "broken" },
+							properties: { href: resolved, class: "broken" },
 							children: state.all(node),
 						};
 					} else {
@@ -97,7 +96,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 								return {
 									type: "element",
 									tagName: "a",
-									properties: { href: node.destination, class: "broken" },
+									properties: { href: resolved, class: "broken" },
 									children: state.all(mathLinkPipeline.parse(pf.data.mathLink).children[0]),
 								};
 							} else if (rawAnchor.startsWith("^")) {
@@ -109,7 +108,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 									return {
 										type: "element",
 										tagName: "a",
-										properties: { href: node.destination },
+										properties: { href: resolved },
 										children: state.all(
 											mathLinkPipeline.parse(pf.data["mathLink-blocks"][blockId]).children[0],
 										),
@@ -122,7 +121,7 @@ function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 						return {
 							type: "element",
 							tagName: "a",
-							properties: { href: node.destination },
+							properties: { href: resolved },
 							children: [
 								{
 									type: "text",
