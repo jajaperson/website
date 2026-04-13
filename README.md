@@ -1,3 +1,7 @@
+# My webite
+
+Under construction...
+
 ## Architecture
 
 In order to build the site
@@ -7,9 +11,9 @@ In order to build the site
    which optionally yield preprocessed files for the next phase.
    Emitters should tag preprocessed files with a symbol to mark the originating emitter.
 3. All preprocessed input from all emitters is gathered in a single array.
-4. Every preprocessed file in the array is passed to _every_ emitter's parser,
-   which are intended to emit syntax trees.
-   Most emitters should immediately return for all preprocessed files which did not come from the same emitter.
+4. Every preprocessed file in the array is passed to its parser,
+   which is intended to emit syntax trees.
+   Parsers also have access to other preprocessed files
 5. All parsed input from all emitters is gathered in a single array.
-6. Every parsed file is passed to to every emitter's renderer, which output the html files.
-   Again most emitters should guard against other files.
+6. Every parsed file is passed to to its renderer, which output the `public/` files.
+   Renderers also have access to other parsed fies.
