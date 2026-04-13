@@ -7,6 +7,6 @@ export const Page: FunctionComponent<{ title?: string }> = ({ children, title })
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<link rel="stylesheet" href="/styles.css" />
 		</head>
-		<body>{children}</body>
+		<body class="dark:bg-mist-900">{children}</body>
 	</html>
 );

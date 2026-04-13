@@ -36,6 +36,7 @@ export function htmlToJsx(tree: Root) {
 		components: customComponents,
 	});
 }
+
 export function renderJsx(jsx: VNode): string {
 	return "<!DOCTYPE html>\n" + render(jsx);
 }

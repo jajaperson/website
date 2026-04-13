@@ -1,6 +1,14 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import "@wooorm/starry-night/style/both";
+@import "./styles/prose.css";
+
+@theme {
+	--color-secondary: #3478fa;
+	--color-tertiary: #1e52b4;
+	--color-accent: #e55f9c;
+}
+
+/* Preflight MathJax fix */
 
 mjx-container {
 	display: inline;
@@ -14,8 +22,4 @@ mjx-container[display="true"] {
 mjx-container svg,
 mjx-container math {
 	display: inline;
-}
-
-a.broken {
-	@apply text-gray-500 cursor-not-allowed;
 }

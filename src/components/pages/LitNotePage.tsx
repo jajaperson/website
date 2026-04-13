@@ -1,6 +1,7 @@
 import { CSLEntry } from "biblatex-csl-converter";
 import { FunctionComponent } from "preact";
 import { Page } from "./Page.js";
+import { Article } from "../Article.js";
 
 export interface CSLAuthor {
 	given: string;
@@ -54,13 +55,13 @@ export const LitNotePage: FunctionComponent<{ entry: CSLEntry }> = ({ entry }) =
 
 	return (
 		<Page>
-			<article class="prose m-8">
+			<Article>
 				<Authors />
 				<Title />
 				<Ident />
 				<Container />
 				<Abstract />
-			</article>
+			</Article>
 		</Page>
 	);
 };

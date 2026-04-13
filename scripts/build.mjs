@@ -6,6 +6,8 @@ import { styleText } from "util";
 // import { Mutex } from "async-mutex";
 import { randomUUID } from "crypto";
 import { BUILD, CACHE_FILE } from "./constants.mjs";
+import { readFile } from "fs/promises";
+import { dirname, relative, resolve } from "path";
 
 /** @import {Argv} from "../src/util/ctx.js" */
 
@@ -65,6 +67,41 @@ const ctx = await esbuild.context({
 	metafile: true,
 	sourcemap: true,
 	sourcesContent: false,
+	plugins: [
+		{
+			name: "inline-script-loader",
+			setup(build) {
+				build.onLoad({ filter: /\.inline\.(ts|js)$/ }, async (args) => {
+					let text = await readFile(args.path, "utf8");
+
+					// remove default exports that we manually inserted
+					text = text.replace("export default", "");
+					text = text.replace("export", "");
+
+					const sourcefile = relative(resolve("."), args.path);
+					const resolveDir = dirname(sourcefile);
+					const transpiled = await esbuild.build({
+						stdin: {
+							contents: text,
+							loader: "ts",
+							resolveDir,
+							sourcefile,
+						},
+						write: false,
+						bundle: true,
+						minify: true,
+						platform: "browser",
+						format: "esm",
+					});
+					const rawMod = transpiled.outputFiles[0].text;
+					return {
+						contents: rawMod,
+						loader: "text",
+					};
+				});
+			},
+		},
+	],
 });
 
 // const buildMutex = new Mutex();

@@ -5,7 +5,6 @@ import { BibLatexParser, CSLEntry, CSLExporter } from "biblatex-csl-converter";
 import { FullSlug, VaultPath } from "../util/path.js";
 import { BuildCtx } from "../util/ctx.js";
 import { write } from "../util/write.js";
-import { render } from "preact-render-to-string";
 import { renderJsx } from "../util/jsx.js";
 import { LitNotePage } from "../components/pages/LitNotePage.js";
 

@@ -62,6 +62,9 @@ importers:
       hast-util-to-jsx-runtime:
         specifier: ^2.3.6
         version: 2.3.6
+      hastscript:
+        specifier: ^9.0.1
+        version: 9.0.1
       is-absolute-url:
         specifier: ^5.0.0
         version: 5.0.0
@@ -71,6 +74,9 @@ importers:
       mdast-util-callout:
         specifier: ^0.0.0
         version: 0.0.0
+      mdast-util-hashtag:
+        specifier: ^1.0.0
+        version: 1.0.0
       mdast-util-to-hast:
         specifier: ^13.2.1
         version: 13.2.1
@@ -80,9 +86,15 @@ importers:
       micromark-extension-callout:
         specifier: ^0.0.0
         version: 0.0.0
+      micromark-extension-hashtag:
+        specifier: ^1.0.0
+        version: 1.0.0
       micromark-extension-wikilink-syntax:
         specifier: ^2.0.0
         version: 2.0.0
+      micromark-util-symbol:
+        specifier: ^2.0.1
+        version: 2.0.1
       postcss:
         specifier: ^8.5.9
         version: 8.5.9
@@ -975,6 +987,9 @@ packages:
   mdast-util-gfm@3.1.0:
     resolution: {integrity: sha512-0ulfdQOM3ysHhCJ1p06l0b0VKlhU0wuQs3thxZQagjcjPrlFRqY215uZGHHJan9GEAXd9MbfPjFJz+qMkVR6zQ==}
 
+  mdast-util-hashtag@1.0.0:
+    resolution: {integrity: sha512-qX9z8uo7RmLgFAD5gDJdbxLdJn60LudEOHgJPLDhrmvhm7ifvK45YgrdVrdVIDPn3PWvrYoy7XLR7j5ywYonCQ==}
+
   mdast-util-inline-footnote@1.0.2:
     resolution: {integrity: sha512-S8T1C0gGhBPyOaK0fWc75Z5ahp/xnM4O6vksIoonZgVCLQUk7kCNBnK87Cs4zxtVqfNnLp9fSG1V4WHWyIxawQ==}
 
@@ -1041,6 +1056,9 @@ packages:
 
   micromark-extension-gfm@3.0.0:
     resolution: {integrity: sha512-vsKArQsicm7t0z2GugkCKtZehqUm31oeGBV/KVSorWSy8ZlNAv7ytjFhvaryUiCUJYqs+NoE6AFhpQvBTM6Q4w==}
+
+  micromark-extension-hashtag@1.0.0:
+    resolution: {integrity: sha512-3b/1WIfJ8ZsHymiwJCouzBFRmBwB8VLDeohpx+Q4vBSkFA85ynR6UjjhCT7lND1o4ByrkF7BM0b41yKuUqpPaA==}
 
   micromark-extension-inline-footnote@1.0.1:
     resolution: {integrity: sha512-Fz71Md81mgisb0Kcq1E4rHuoQqJPqNG+wq5aXJYwHtDDmh3lD+AwSpQfgeCCBiFevFGijwcZN3KNIkVmVtfijA==}
@@ -2279,6 +2297,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  mdast-util-hashtag@1.0.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      devlop: 1.1.0
+
   mdast-util-inline-footnote@1.0.2:
     dependencies:
       '@types/mdast': 4.0.4
@@ -2468,6 +2491,13 @@ snapshots:
       micromark-extension-gfm-tagfilter: 2.0.0
       micromark-extension-gfm-task-list-item: 2.1.0
       micromark-util-combine-extensions: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-hashtag@1.0.0:
+    dependencies:
+      devlop: 1.1.0
+      micromark-util-character: 2.1.1
+      micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
   micromark-extension-inline-footnote@1.0.1:
