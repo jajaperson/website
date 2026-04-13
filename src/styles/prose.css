@@ -1,0 +1,95 @@
+@import "./callout.css";
+
+.prose {
+	@apply max-w-3xl space-y-7 text-xl dark:text-white;
+
+	> a {
+		@apply block;
+	}
+
+	a {
+		@apply font-medium underline underline-offset-2 text-secondary;
+
+		&:hover {
+			@apply text-tertiary;
+		}
+
+		&.broken {
+			@apply opacity-70 cursor-not-allowed;
+		}
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply mt-8;
+	}
+
+	h1 {
+		@apply font-bold text-2xl;
+	}
+
+	h2 {
+		@apply font-semibold text-xl;
+	}
+
+	h3 {
+		@apply font-semibold text-lg;
+	}
+
+	h4 {
+		@apply font-medium text-base;
+		font-variant: small-caps;
+	}
+
+	h5 {
+		@apply font-medium text-sm;
+		font-variant: small-caps;
+	}
+
+	h6 {
+		@apply font-normal text-sm;
+		font-variant: small-caps;
+	}
+
+	strong,
+	em {
+		@apply dark:text-accent;
+	}
+
+	strong {
+		@apply font-bold;
+	}
+
+	ul,
+	ol {
+		@apply space-y-2 pl-10;
+	}
+
+	ul {
+		@apply list-disc;
+	}
+
+	ol {
+		@apply list-decimal;
+	}
+
+	blockquote {
+		@apply border-l pl-4 my-4;
+
+		&:not(.callout) {
+			@apply opacity-70;
+		}
+	}
+
+	hr {
+		@apply text-gray-500;
+	}
+
+	span.hashtag {
+		@apply text-gray-500 font-light text-[0.9em];
+	}
+}

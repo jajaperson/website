@@ -1,30 +1,19 @@
-# [jaj•a•person's website](https://jajaperson.me)
+# My webite
 
-yup, i finally made a website. it's completely overengineered for the
-minimalistic single page it is, but maybe i'll eventually add a blog or
-something.
+Under construction...
 
-## what i'm using
+## Architecture
 
-in case you were wondering, here are the tools the site uses. as i said,
-overengineered.
+In order to build the site
 
-- [`typescript`](https://typescriptlang.org) — makes javascript cooler
-- [`nextjs`](http://nextjs.org) — uWu server side rendering
-- [`react`](https://reactjs.org) — components and stuff
-- [`styled-components`](https://styled-components.com) — styles the components
-  \*gasp\*
-- [`fontawesome`](https://fontawesome.com) — icons and stuff; i mainly used for
-  social icons
-- [`prettier`](https://prettier.io) — makes code look fancy
-- [`eslint`](https://eslint.org) — for when i make mistakes
-- [`vercel`](https://vercel.com) — hosts the website _and_ automatically builds
-  and hosts previews for commits and pull requests
-- [`github actions`](https://github.com/features/actions) — an elegant ci and
-  workflow automation solution built right into github
-- [`dependabot`](https://dependabot.com) — a friendly robot who helps keep all
-  my dependencies up to date
-
-## why is all this readme lowercase
-
-to be edgy.
+1. Using `globby` we get an asynct iterator of all files in `vault/`.
+2. Preprocessors are applied to each path,
+   which optionally yield preprocessed files for the next phase.
+   Emitters should tag preprocessed files with a symbol to mark the originating emitter.
+3. All preprocessed input from all emitters is gathered in a single array.
+4. Every preprocessed file in the array is passed to its parser,
+   which is intended to emit syntax trees.
+   Parsers also have access to other preprocessed files
+5. All parsed input from all emitters is gathered in a single array.
+6. Every parsed file is passed to to its renderer, which output the `public/` files.
+   Renderers also have access to other parsed fies.

@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@import "@wooorm/starry-night/style/both";
+@import "./styles/prose.css";
+
+@theme {
+	--color-secondary: #3478fa;
+	--color-tertiary: #1e52b4;
+	--color-accent: #e55f9c;
+}
+
+/* Preflight MathJax fix */
+
+mjx-container {
+	display: inline;
+	line-height: normal;
+}
+
+mjx-container[display="true"] {
+	display: block;
+}
+
+mjx-container svg,
+mjx-container math {
+	display: inline;
+}
