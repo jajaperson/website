@@ -29,8 +29,8 @@ interface BaseEmitter {
 	symbol: symbol;
 }
 
-interface StaticEmitter extends BaseEmitter {
-	render: () => void;
+export interface StaticEmitter extends BaseEmitter {
+	render(ctx: BuildCtx, all: ProcessedFile<any>[]): AsyncIterableIterator<FilePath>;
 }
 
 export interface DynamicEmitter<
@@ -104,6 +104,13 @@ export async function* renderFiles(
 	ctx: BuildCtx,
 	all: ProcessedFile<any>[],
 ): AsyncIterableIterator<FilePath> {
+	for (const k of ctx.emitterKeys) {
+		const emitter = ctx.emitters[k];
+		if (!isDynamic(emitter)) {
+			yield* emitter.render(ctx, all);
+		}
+	}
+
 	await Promise.all(
 		ctx.emitterKeys.map(async (k) => {
 			const emitter = ctx.emitters[k];

@@ -1,7 +1,7 @@
 import matter from "gray-matter";
 import type { DynamicEmitter, ProcessedFile } from "../emitters.js";
 import { readFile } from "node:fs/promises";
-import { join } from "node:path/posix";
+import { basename, join } from "node:path/posix";
 import { sluggifyVaultPath } from "../util/path.js";
 import type { VaultPath } from "../util/path.js";
 import type { Root as MdRoot } from "mdast";
@@ -41,6 +41,8 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 		// Make sure the frontmatter contains a public tag
 		if (!Array.isArray(data.tags)) return;
 		if (data.tags.includes("private") || !data.tags.includes("public")) return;
+
+		data.title ??= basename(vp, ".md");
 
 		yield {
 			origin: vp,
@@ -82,7 +84,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 			ctx,
 			current.slug,
 			".html",
-			renderJsx(<ContentPage title={current.slug}>{htmlToJsx(hast)}</ContentPage>),
+			renderJsx(<ContentPage title={current.data?.title}>{htmlToJsx(hast)}</ContentPage>),
 		);
 	}
 }
