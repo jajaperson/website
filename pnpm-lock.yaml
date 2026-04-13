@@ -111,8 +111,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       remark-inline-footnote:
-        specifier: ^1.0.3
-        version: 1.0.3
+        specifier: ^1.0.4
+        version: 1.0.4
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -975,8 +975,8 @@ packages:
   mdast-util-gfm@3.1.0:
     resolution: {integrity: sha512-0ulfdQOM3ysHhCJ1p06l0b0VKlhU0wuQs3thxZQagjcjPrlFRqY215uZGHHJan9GEAXd9MbfPjFJz+qMkVR6zQ==}
 
-  mdast-util-inline-footnote@1.0.1:
-    resolution: {integrity: sha512-DFLFH3Ls0grb1B/t0Y9kVE9ELr2qKuUEgI4JXe6sh7x0hCYu5Az2Ajq0afq0TobbB58OqwBHyPQnkkNgCT2Euw==}
+  mdast-util-inline-footnote@1.0.2:
+    resolution: {integrity: sha512-S8T1C0gGhBPyOaK0fWc75Z5ahp/xnM4O6vksIoonZgVCLQUk7kCNBnK87Cs4zxtVqfNnLp9fSG1V4WHWyIxawQ==}
 
   mdast-util-math@3.0.0:
     resolution: {integrity: sha512-Tl9GBNeG/AhJnQM221bJR2HPvLOSnLE/T9cJI9tlc6zwQk2nPk/4f0cHkOdEixQPC/j8UtKDdITswvLAy1OZ1w==}
@@ -1042,8 +1042,8 @@ packages:
   micromark-extension-gfm@3.0.0:
     resolution: {integrity: sha512-vsKArQsicm7t0z2GugkCKtZehqUm31oeGBV/KVSorWSy8ZlNAv7ytjFhvaryUiCUJYqs+NoE6AFhpQvBTM6Q4w==}
 
-  micromark-extension-inline-footnote@1.0.0:
-    resolution: {integrity: sha512-lW6xmPdQEkoCJ0efRxDWyN9VVAjbgTczHXtCN63LHORMMUPM+7/Vbm4um7h3FRW/KvXGwOjiG46TpGitTxSakQ==}
+  micromark-extension-inline-footnote@1.0.1:
+    resolution: {integrity: sha512-Fz71Md81mgisb0Kcq1E4rHuoQqJPqNG+wq5aXJYwHtDDmh3lD+AwSpQfgeCCBiFevFGijwcZN3KNIkVmVtfijA==}
 
   micromark-extension-math@3.1.0:
     resolution: {integrity: sha512-lvEqd+fHjATVs+2v/8kg9i5Q0AP2k85H0WUOwpIVvUML8BapsMvh1XAogmQjOCsLpoKRCVQqEkQBB3NhVBcsOg==}
@@ -1254,8 +1254,8 @@ packages:
   remark-gfm@4.0.1:
     resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
 
-  remark-inline-footnote@1.0.3:
-    resolution: {integrity: sha512-E7z0vG17zJwXIzgirleOwVCknAujegJY+6cEmS9ItjxMww9lz9leeyP4ePp4+nyFzYiyvS/xMFkVid9NcodZIg==}
+  remark-inline-footnote@1.0.4:
+    resolution: {integrity: sha512-mDTFPBmfKpbpBj1/qc01SKqn7S1wjKP3yj8uM3H9/AGmEgH2JrWdkRQgcxxcMVlSzJQF9uYdEhRtcg/fMQHVwg==}
 
   remark-parse@11.0.0:
     resolution: {integrity: sha512-FCxlKLNGknS5ba/1lmpYijMUzX2esxW5xQqjWxw2eHFfS2MSdaHVINFmhjo+qN1WhZhNimq0dZATN9pH0IDrpA==}
@@ -2279,9 +2279,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  mdast-util-inline-footnote@1.0.1:
+  mdast-util-inline-footnote@1.0.2:
     dependencies:
       '@types/mdast': 4.0.4
+      unist-util-visit: 5.1.0
 
   mdast-util-math@3.0.0:
     dependencies:
@@ -2469,10 +2470,9 @@ snapshots:
       micromark-util-combine-extensions: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-inline-footnote@1.0.0:
+  micromark-extension-inline-footnote@1.0.1:
     dependencies:
       devlop: 1.1.0
-      micromark-core-commonmark: 2.0.3
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
@@ -2771,11 +2771,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-inline-footnote@1.0.3:
+  remark-inline-footnote@1.0.4:
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-inline-footnote: 1.0.1
-      micromark-extension-inline-footnote: 1.0.0
+      mdast-util-inline-footnote: 1.0.2
+      micromark-extension-inline-footnote: 1.0.1
       rehype-stringify: 10.0.1
       remark-parse: 11.0.0
       remark-stringify: 11.0.0
