@@ -8,6 +8,11 @@ export type ProcessedFile<Content = string> = {
 	/** File in vault whence this file originated */
 	origin?: VaultPath;
 	data?: {
+		title?: string;
+		/** Used to store scripts that need to be loaded on the emitted page */
+		scripts?: {
+			[key: string]: string;
+		};
 		[key: string]: any;
 	};
 	/** Symbol for the emitter responsible for this file. Should match `emitter.symbol`. */

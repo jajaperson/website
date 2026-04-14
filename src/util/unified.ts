@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import remarkInlineFootnote from "remark-inline-footnote";
 import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
 import rehypeStarryNight from "rehype-starry-night";
+import rehypeRaw from "rehype-raw";
 import type { Root as MdRoot } from "mdast";
 import { Macros } from "./loadPreamble.js";
 import remarkRehype from "remark-rehype";
@@ -53,5 +54,6 @@ export function createHtmlProcessor(
 				tex: { macros },
 			},
 		)
-		.use(rehypeStarryNight, { grammars: allGrammars });
+		.use(rehypeStarryNight, { grammars: allGrammars })
+		.use(rehypeRaw);
 }

@@ -1,6 +1,6 @@
-@import "./callout.css";
-
 .prose {
+	@import "./callout.css";
+	@import "./phonetics.css";
 	@apply max-w-3xl space-y-7 text-xl dark:text-white;
 
 	> a {
@@ -86,10 +86,40 @@
 	}
 
 	hr {
-		@apply text-gray-500;
+		@apply text-gray;
 	}
 
 	span.hashtag {
-		@apply text-gray-500 font-light text-[0.9em];
+		@apply text-gray font-light text-[0.9em];
+	}
+
+	.table-container {
+		@apply overflow-x-auto;
+
+		& > table {
+			@apply mx-4 p-6 border-collapse;
+
+			th,
+			td {
+				@apply min-w-20;
+			}
+
+			& > * {
+				@apply leading-8;
+			}
+		}
+	}
+
+	th {
+		@apply text-left font-medium py-2 px-3
+      border-solid border-gray border-b-2;
+	}
+
+	td {
+		@apply px-1 py-3;
+	}
+
+	tr:not(:last-child) {
+		@apply border-b border-solid border-light-gray dark:border-dark-gray;
 	}
 }

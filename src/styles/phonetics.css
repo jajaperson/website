@@ -1,0 +1,29 @@
+.broad,
+.narrow,
+.recon,
+.ling {
+	font-family: "Charis SIL", "Charis SIL backup", serif;
+	text-transform: none;
+	font-variant: normal;
+}
+
+.broad:before,
+.broad:after {
+	font-family: var(--font-text-override);
+	content: "/";
+}
+
+.narrow:before {
+	font-family: var(--font-text-override);
+	content: "[";
+}
+
+.narrow:after {
+	font-family: var(--font-text-override);
+	content: "]";
+}
+
+.recon:before {
+	font-family: var(--font-text-override);
+	content: "*";
+}

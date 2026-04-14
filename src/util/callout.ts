@@ -1,3 +1,4 @@
+import { ok as assert } from "devlop";
 import { Element, ElementContent } from "hast";
 import { h } from "hastscript";
 import { calloutFromMarkdown } from "mdast-util-callout";
@@ -5,6 +6,9 @@ import type { CalloutTitle, CalloutContent, Callout } from "mdast-util-callout";
 import { Handlers } from "mdast-util-to-hast";
 import { calloutExt } from "micromark-extension-callout";
 import { Plugin } from "unified";
+
+// @ts-ignore
+import calloutScript from "../components/scripts/callout.inline.js";
 
 const calloutMapping = {
 	note: "note",
@@ -57,6 +61,10 @@ export function calloutParse(): Plugin {
 export function calloutHandlers(): Handlers {
 	return {
 		callout(state, node: Callout) {
+			const file = state.options.file?.data.file;
+			assert(file, "expected file");
+			((file.data ??= {}).scripts ??= {}).callout ??= calloutScript;
+
 			const type = canonicalizeCallout(node.calloutType);
 			const { collapse, titled } = node;
 			const collapsible = collapse === "closed" || collapse === "open";

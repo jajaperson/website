@@ -84,7 +84,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 			ctx,
 			current.slug,
 			".html",
-			renderJsx(<ContentPage title={current.data?.title}>{htmlToJsx(hast)}</ContentPage>),
+			renderJsx(<ContentPage fileData={current}>{htmlToJsx(hast)}</ContentPage>),
 		);
 	}
 }

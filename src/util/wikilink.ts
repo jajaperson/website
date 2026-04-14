@@ -31,7 +31,7 @@ export function wikilinkParse(): Plugin {
 		const micromarkExtensions = (data.micromarkExtensions ??= []);
 		const fromMarkdownExtensions = (data.fromMarkdownExtensions ??= []);
 
-		micromarkExtensions.push(wikilink());
+		micromarkExtensions.push(wikilink({ gfmCompat: true }));
 		fromMarkdownExtensions.push(wikilinkFromMarkdown());
 	};
 }
@@ -56,7 +56,7 @@ export function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 				const [target, anchor, rawAnchor] = splitAnchor(node.destination);
 				const isToBlock = typeof rawAnchor === "string" && rawAnchor.startsWith("^");
 				// bodge
-				const trueAnchor = isToBlock ? anchor : "#" + rawAnchor;
+				const trueAnchor = isToBlock ? "#" + rawAnchor : anchor;
 
 				const pf = target ? resolveSlugToFile(target, all) : state.options.file?.data.file;
 				if (pf) {

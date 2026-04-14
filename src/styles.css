@@ -1,11 +1,15 @@
 @import "tailwindcss";
 @import "@wooorm/starry-night/style/both";
 @import "./styles/prose.css";
+@import "../vault/.obsidian/snippets/phonetics.css";
 
 @theme {
 	--color-secondary: #3478fa;
 	--color-tertiary: #1e52b4;
 	--color-accent: #e55f9c;
+	--color-gray: var(--color-gray-500);
+	--color-light-gray: var(--color-gray-200);
+	--color-dark-gray: var(--color-gray-700);
 }
 
 /* Preflight MathJax fix */
@@ -23,3 +27,5 @@ mjx-container svg,
 mjx-container math {
 	display: inline;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&display=swap");
