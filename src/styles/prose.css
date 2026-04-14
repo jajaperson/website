@@ -78,11 +78,7 @@
 	}
 
 	blockquote {
-		@apply border-l pl-4 my-4;
-
-		&:not(.callout) {
-			@apply opacity-70;
-		}
+		@apply border-l pl-4 my-4 opacity-70;
 	}
 
 	hr {
