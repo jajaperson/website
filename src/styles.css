@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "@wooorm/starry-night/style/both";
 @import "./styles/prose.css";
-@import "../vault/.obsidian/snippets/phonetics.css";
 
 @theme {
 	--color-secondary: #3478fa;

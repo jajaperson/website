@@ -117,16 +117,31 @@ export function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 			if (!isAbsoluteUrl(resolved)) {
 				const [target, anchor, rawAnchor] = splitAnchor(node.destination);
 				const pf = resolveSlugToFile(target, all);
-				if (pf) resolved = relative(dirname(curSlug), pf.slug) + anchor;
+				if (pf) {
+					resolved = relative(dirname(curSlug), pf.slug) + anchor;
+					if (pf.slug.endsWith("html")) {
+						return h(
+							"blockquote",
+							"Transclusion of ",
+							h("a", { href: "resolved" }, rawAnchor || node.destination),
+						);
+					}
+				}
 			}
 
 			let alt: string | undefined = undefined;
+			let width: string | undefined = undefined;
+			let height: string | undefined = undefined;
 			if (alias) {
 				assert(node.type === "altWikilinkEmbed", "expected altWikiLink");
-				alt = node.alt;
+				alt = node.alt.replace(/(?:^|\|) *(\d+) *(?:x *(\d+) *)?$/, (_, $1, $2) => {
+					width = $1;
+					height = $1;
+					return "";
+				});
 			}
 
-			return h("img", { src: resolved, alt });
+			return h("img", { src: resolved, alt, width, height });
 		};
 	}
 }
