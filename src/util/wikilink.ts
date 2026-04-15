@@ -119,11 +119,11 @@ export function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
 				const pf = resolveSlugToFile(target, all);
 				if (pf) {
 					resolved = relative(dirname(curSlug), pf.slug) + anchor;
-					if (pf.slug.endsWith("html")) {
+					if (pf.origin?.endsWith("md")) {
 						return h(
 							"blockquote",
 							"Transclusion of ",
-							h("a", { href: "resolved" }, rawAnchor || node.destination),
+							h("a", { href: resolved }, rawAnchor || node.destination),
 						);
 					}
 				}

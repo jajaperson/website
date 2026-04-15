@@ -6,7 +6,7 @@
     px-4 overflow-y-hidden my-4;
 
 	.callout-content {
-		@apply grid overflow-hidden;
+		@apply grid overflow-hidden space-y-7;
 
 		& > :first-child {
 			@apply mt-0;

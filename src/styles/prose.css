@@ -78,7 +78,7 @@
 	}
 
 	blockquote {
-		@apply border-l pl-4 my-4 opacity-70;
+		@apply border-l pl-4 my-4 opacity-70 space-y-7;
 	}
 
 	hr {
@@ -123,11 +123,11 @@
 		@apply mx-auto;
 
 		&[src$="#invert"] {
-			@apply invert;
+			@apply dark:invert;
 		}
 
 		&[src$="#invertW"] {
-			@apply dark:invert;
+			@apply not-dark:invert;
 		}
 	}
 }
