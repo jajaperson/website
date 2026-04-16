@@ -3,6 +3,7 @@ import { hashtag } from "micromark-extension-hashtag";
 import { Hashtag, hashtagFromMarkdown } from "mdast-util-hashtag";
 import { Handlers } from "mdast-util-to-hast";
 import { codes } from "micromark-util-symbol";
+import { unicodePunctuation, unicodeWhitespace } from "micromark-util-character";
 import { h } from "hastscript";
 
 export function hashtagParse(): Plugin {
@@ -12,7 +13,15 @@ export function hashtagParse(): Plugin {
 		const micromarkExtensions = (data.micromarkExtensions ??= []);
 		const fromMarkdownExtensions = (data.fromMarkdownExtensions ??= []);
 
-		micromarkExtensions.push(hashtag(codes.underscore, codes.dash, codes.slash));
+		micromarkExtensions.push(
+			hashtag(
+				(code) =>
+					!(unicodeWhitespace(code) || unicodePunctuation(code)) ||
+					code === codes.slash ||
+					code === codes.underscore ||
+					code === codes.dash,
+			),
+		);
 		fromMarkdownExtensions.push(hashtagFromMarkdown());
 	};
 }

@@ -28,14 +28,15 @@
     "is-absolute-url": "^5.0.0",
     "iterable-utilities": "^3.2.3",
     "mdast-util-callout": "^0.0.0",
-    "mdast-util-hashtag": "^1.0.0",
+    "mdast-util-hashtag": "^1.0.1",
     "mdast-util-to-hast": "^13.2.1",
     "mdast-util-wikilink-syntax": "^2.0.0",
     "micromark-extension-callout": "^0.0.0",
-    "micromark-extension-hashtag": "^1.0.0",
+    "micromark-extension-hashtag": "^2.0.0",
     "micromark-extension-wikilink-syntax": "^2.1.0",
+    "micromark-util-character": "^2.1.1",
     "micromark-util-symbol": "^2.0.1",
-    "postcss": "^8.5.9",
+    "postcss": "^8.5.10",
     "postcss-cli": "^11.0.1",
     "preact": "^10.29.1",
     "preact-render-to-string": "^6.6.7",
@@ -56,7 +57,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "prettier": "^3.8.2",
+    "prettier": "^3.8.3",
     "tsx": "^4.21.0"
   },
   "type": "module",
