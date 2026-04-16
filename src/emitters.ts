@@ -1,6 +1,7 @@
 import { ok as assert } from "devlop";
 import { BuildCtx } from "./util/ctx.js";
 import { FullSlug, FilePath, VaultPath } from "./util/path.js";
+import { styleText } from "node:util";
 
 export type ProcessedFile<Content = string> = {
 	/** Destination slug for this file once fully processed */
@@ -98,7 +99,12 @@ export async function* parseFiles(
 		const emitter = ctx.emitters[vf.emitter];
 		assert(isDynamic(emitter), "expected dynamic emitter");
 		if (typeof emitter.parse === "function") {
-			yield* emitter.parse(ctx, vf, all);
+			try {
+				yield* emitter.parse(ctx, vf, all);
+			} catch (e) {
+				console.log(styleText("red", `Error parsing \`${vf.origin ?? vf.slug}\`:`));
+				throw e;
+			}
 		} else {
 			yield vf;
 		}
@@ -126,6 +132,11 @@ export async function* renderFiles(
 	for (const vf of all) {
 		const emitter = ctx.emitters[vf.emitter];
 		assert(isDynamic(emitter), "expected dynamic emitter");
-		yield* emitter.render(ctx, vf, all);
+		try {
+			yield* emitter.render(ctx, vf, all);
+		} catch (e) {
+			console.log(styleText("red", `Error rendering \`${vf.origin ?? vf.slug}\`:`));
+			throw e;
+		}
 	}
 }
