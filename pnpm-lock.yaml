@@ -81,17 +81,17 @@ importers:
         specifier: ^13.2.1
         version: 13.2.1
       mdast-util-wikilink-syntax:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       micromark-extension-callout:
         specifier: ^0.0.0
         version: 0.0.0
       micromark-extension-hashtag:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       micromark-extension-wikilink-syntax:
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.1
+        version: 2.1.1
       micromark-util-character:
         specifier: ^2.1.1
         version: 2.1.1
@@ -129,8 +129,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       remark-inline-footnote:
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.5
+        version: 1.0.5
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -138,8 +138,8 @@ importers:
         specifier: ^11.1.2
         version: 11.1.2
       remark-rehype-block-id:
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: ^1.0.3
+        version: 1.0.3
       tailwindcss:
         specifier: ^4.2.2
         version: 4.2.2
@@ -969,8 +969,8 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
-  mdast-util-block-id@1.0.0:
-    resolution: {integrity: sha512-8Ss8N1rfGg6Rq2mQ35ze9KT2jrpyy9OW+mgZ4FiPHlcmA5/vD4Pvy7qP/NZZ1mDDp53fRXuWcEvBg5OeN+0S+w==}
+  mdast-util-block-id@1.0.2:
+    resolution: {integrity: sha512-2GuyyAT5g6OVMK1KM3Ci4r8syegEWNU37R0GtOiUNEF/AmH5JXlhUXEDAocK/wtMKnaITiTxNBPeuAQI96JWOA==}
 
   mdast-util-callout@0.0.0:
     resolution: {integrity: sha512-yDXM6L6rBF6nUReHXP5+B8kXQiU/AbcWvGMaAUMkohymeJET6ypjOumxj9/Ub/BCAX/FtPWn+kSKvo8QiJPP0A==}
@@ -1002,8 +1002,8 @@ packages:
   mdast-util-hashtag@1.0.1:
     resolution: {integrity: sha512-iQEpeRrugPk8xSG9ynA1s9PRih6BIiPTm3gKrfSdjheUNDoOLAbnwMFyw+qI10bkKjHr2+bXH6e21etYcvcSiw==}
 
-  mdast-util-inline-footnote@1.0.2:
-    resolution: {integrity: sha512-S8T1C0gGhBPyOaK0fWc75Z5ahp/xnM4O6vksIoonZgVCLQUk7kCNBnK87Cs4zxtVqfNnLp9fSG1V4WHWyIxawQ==}
+  mdast-util-inline-footnote@1.0.3:
+    resolution: {integrity: sha512-RcNJt5XCbohMylUpMXL7owmXdbmsSEtJbzsIzPiFVkAAM8mCOXLmk6GnWOGYfDKZ36gPV7FCgJXucH0OIBFwNQ==}
 
   mdast-util-math@3.0.0:
     resolution: {integrity: sha512-Tl9GBNeG/AhJnQM221bJR2HPvLOSnLE/T9cJI9tlc6zwQk2nPk/4f0cHkOdEixQPC/j8UtKDdITswvLAy1OZ1w==}
@@ -1029,8 +1029,8 @@ packages:
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
 
-  mdast-util-wikilink-syntax@2.0.0:
-    resolution: {integrity: sha512-b3q00oa3DKQJDgwuEPAP6wZfSOSfbHN60IH2FQMmDGf2Nkb+knv7tQH8GG7joXUL5C6azrLe57BZoljRD2XYQQ==}
+  mdast-util-wikilink-syntax@2.0.1:
+    resolution: {integrity: sha512-AJ5LSFNRX1uS2ydAsdiIeq+6xUe3ctJhbIu+uo8Foacsgrok4eaB0tHEk5umOigPcWZ0b2jU64Bo5ytaaS6gGQ==}
 
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -1042,8 +1042,8 @@ packages:
   micromark-core-commonmark@2.0.3:
     resolution: {integrity: sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg==}
 
-  micromark-extension-block-id@1.0.0:
-    resolution: {integrity: sha512-Je+2wCDoF8oiJXU3qr91IOQ243gWqIFyoJrmBXhxZ4/x2QibRs/ysA9ttbspQ3+dsV5LHXzPb1Ri8yAtbEZd8w==}
+  micromark-extension-block-id@1.0.1:
+    resolution: {integrity: sha512-F1bE/da5cOSbq/iagRHTYtbhEsfwWnQwUmLSpULzvQmxc/x953YA3a5hIAnHRgUGtUGvIagtvE7qXgP97t1yiA==}
 
   micromark-extension-callout@0.0.0:
     resolution: {integrity: sha512-0k0xxoTzpFqPDs2tk98sqve8W4Dbz91ga5x58MzpA9TxRQEffAYAgVLr5qKNSObXz05fu8CkLz3aw2IqeQuLzg==}
@@ -1069,17 +1069,17 @@ packages:
   micromark-extension-gfm@3.0.0:
     resolution: {integrity: sha512-vsKArQsicm7t0z2GugkCKtZehqUm31oeGBV/KVSorWSy8ZlNAv7ytjFhvaryUiCUJYqs+NoE6AFhpQvBTM6Q4w==}
 
-  micromark-extension-hashtag@2.0.0:
-    resolution: {integrity: sha512-0U457wgE9CGmSdKqJv0fowNvxnMpOzW4mxzpIfRYQM3pNGqTXz6fnarzL0S0gGzHu1MbbEqhA2wVh2SW7D9dmw==}
+  micromark-extension-hashtag@2.0.1:
+    resolution: {integrity: sha512-ZKw8XgItPGpHYyJWI4/Df/Pp3iOyFIdLgjrM5dFF6A6oufe+XVBU5znUzNrash/7VQR67ZZF0gPH1FrbJ7UgEg==}
 
-  micromark-extension-inline-footnote@1.0.1:
-    resolution: {integrity: sha512-Fz71Md81mgisb0Kcq1E4rHuoQqJPqNG+wq5aXJYwHtDDmh3lD+AwSpQfgeCCBiFevFGijwcZN3KNIkVmVtfijA==}
+  micromark-extension-inline-footnote@1.0.2:
+    resolution: {integrity: sha512-YrJAwX1HzMN/E5S2402Eegl6M1zse1jHyVzwZA0bA6YkabKanVKx/5dgwj4vC13E8rtyMfUDsA6937G1JdTsBw==}
 
   micromark-extension-math@3.1.0:
     resolution: {integrity: sha512-lvEqd+fHjATVs+2v/8kg9i5Q0AP2k85H0WUOwpIVvUML8BapsMvh1XAogmQjOCsLpoKRCVQqEkQBB3NhVBcsOg==}
 
-  micromark-extension-wikilink-syntax@2.1.0:
-    resolution: {integrity: sha512-Zp3nV+pT99kSkFy9txwWwQ/KLE7AFpzigYmHfUthEL8JXrkKfYDtrIMWOZrmEpGaCuX011EGU8WXwo5wWK54gg==}
+  micromark-extension-wikilink-syntax@2.1.1:
+    resolution: {integrity: sha512-Rn07mh3fXLp1tv9QLslKfrpWCIBggN7Y8S+AsHWThAt+ZLSAcxb5GOCfJzGWvGSp5276qg3lIgrUiCNmkvOwYA==}
 
   micromark-factory-destination@2.0.1:
     resolution: {integrity: sha512-Xe6rDdJlkmbFRExpTOmRj9N3MaWmbAgdpSrBQvCFqhezUn4AHqJHbaEnfbVYYiexVSs//tqOdY/DxhjdCiJnIA==}
@@ -1287,14 +1287,14 @@ packages:
   remark-gfm@4.0.1:
     resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
 
-  remark-inline-footnote@1.0.4:
-    resolution: {integrity: sha512-mDTFPBmfKpbpBj1/qc01SKqn7S1wjKP3yj8uM3H9/AGmEgH2JrWdkRQgcxxcMVlSzJQF9uYdEhRtcg/fMQHVwg==}
+  remark-inline-footnote@1.0.5:
+    resolution: {integrity: sha512-sqiNA3XrvuekOLY3zv2eDarPCBUFPJjTEsNda+gDTetrMnWz+C3NYt5Zmw7HWfq7ri1Q5jLQv+uz/e1lbiynkA==}
 
   remark-parse@11.0.0:
     resolution: {integrity: sha512-FCxlKLNGknS5ba/1lmpYijMUzX2esxW5xQqjWxw2eHFfS2MSdaHVINFmhjo+qN1WhZhNimq0dZATN9pH0IDrpA==}
 
-  remark-rehype-block-id@1.0.2:
-    resolution: {integrity: sha512-r3ZHgfe9uh0+2DaVPxoZHrzJ9shmXj3ZiqTlQnjU5WcXDPWUNfu5U6NXChswJutd4P8aBJ/H0JlN+JnJWoeRjg==}
+  remark-rehype-block-id@1.0.3:
+    resolution: {integrity: sha512-u46Rex6o3xyd3Ek0YgC5ZZR4srEqA6agxZyin0TtOID8veENgGShK0bYCnTKAPgEd7abEvWiKZ34yZ5nc+hGoA==}
 
   remark-rehype@11.1.2:
     resolution: {integrity: sha512-Dh7l57ianaEoIpzbp0PC9UKAdCSVklD8E5Rpw7ETfbTl3FqcOOgq5q2LVDhgGCkaBv7p24JXikPdvhhmHvKMsw==}
@@ -2247,7 +2247,7 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  mdast-util-block-id@1.0.0:
+  mdast-util-block-id@1.0.2:
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
@@ -2343,7 +2343,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
 
-  mdast-util-inline-footnote@1.0.2:
+  mdast-util-inline-footnote@1.0.3:
     dependencies:
       '@types/mdast': 4.0.4
       unist-util-visit: 5.1.0
@@ -2432,7 +2432,7 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
 
-  mdast-util-wikilink-syntax@2.0.0:
+  mdast-util-wikilink-syntax@2.0.1:
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
@@ -2460,7 +2460,7 @@ snapshots:
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-block-id@1.0.0:
+  micromark-extension-block-id@1.0.1:
     dependencies:
       devlop: 1.1.0
       micromark-util-character: 2.1.1
@@ -2534,14 +2534,14 @@ snapshots:
       micromark-util-combine-extensions: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-hashtag@2.0.0:
+  micromark-extension-hashtag@2.0.1:
     dependencies:
       devlop: 1.1.0
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-inline-footnote@1.0.1:
+  micromark-extension-inline-footnote@1.0.2:
     dependencies:
       devlop: 1.1.0
       micromark-util-symbol: 2.0.1
@@ -2557,7 +2557,7 @@ snapshots:
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-wikilink-syntax@2.1.0:
+  micromark-extension-wikilink-syntax@2.1.1:
     dependencies:
       devlop: 1.1.0
       micromark-util-symbol: 2.0.1
@@ -2848,11 +2848,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-inline-footnote@1.0.4:
+  remark-inline-footnote@1.0.5:
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-inline-footnote: 1.0.2
-      micromark-extension-inline-footnote: 1.0.1
+      mdast-util-inline-footnote: 1.0.3
+      micromark-extension-inline-footnote: 1.0.2
       rehype-stringify: 10.0.1
       remark-parse: 11.0.0
       remark-stringify: 11.0.0
@@ -2869,12 +2869,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  remark-rehype-block-id@1.0.2:
+  remark-rehype-block-id@1.0.3:
     dependencies:
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      mdast-util-block-id: 1.0.0
-      micromark-extension-block-id: 1.0.0
+      mdast-util-block-id: 1.0.2
+      micromark-extension-block-id: 1.0.1
       rehype-stringify: 10.0.1
       remark-parse: 11.0.0
       unified: 11.0.5
