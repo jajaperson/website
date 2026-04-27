@@ -25,6 +25,6 @@ export class Attachments implements DynamicEmitter<void> {
 	async *render(ctx: BuildCtx, current: ProcessedFile<void>) {
 		const { origin, slug } = current;
 
-		await copy(ctx, origin!, slug);
+		yield await copy(ctx, origin!, slug);
 	}
 }

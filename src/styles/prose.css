@@ -1,7 +1,7 @@
 .prose {
 	@import "./callout.css";
 	@import "./phonetics.css";
-	@apply max-w-3xl space-y-7 text-xl dark:text-white;
+	@apply max-w-4xl space-y-7 text-xl dark:text-white;
 
 	> a {
 		@apply block;
