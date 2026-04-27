@@ -56,12 +56,17 @@
 	}
 
 	strong,
+	dfn,
 	em {
 		@apply dark:text-accent;
 	}
 
 	strong {
 		@apply font-bold;
+	}
+
+	dfn {
+		@apply not-italic font-bold;
 	}
 
 	ul,

@@ -1,12 +1,12 @@
 /* Based on Quartz */
 
 .callout {
-	@apply border border-solid border-(--border) 
+	@apply border border-solid border-(--border)
     rounded-sm bg-(--bg) box-border
     px-4 overflow-y-hidden my-4;
 
 	.callout-content {
-		@apply grid overflow-hidden space-y-7;
+		@apply grid space-y-7;
 
 		& > :first-child {
 			@apply mt-0;

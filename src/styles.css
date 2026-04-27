@@ -14,12 +14,11 @@
 /* Preflight MathJax fix */
 
 mjx-container {
-	display: inline;
-	line-height: normal;
+	@apply inline leading-normal;
 }
 
 mjx-container[display="true"] {
-	display: block;
+	@apply block overflow-x-scroll;
 }
 
 mjx-container svg,
