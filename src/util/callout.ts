@@ -1,3 +1,4 @@
+import { equal as assertEqual } from "devlop";
 import { Element, ElementContent } from "hast";
 import { h } from "hastscript";
 import { calloutFromMarkdown } from "mdast-util-callout";
@@ -5,9 +6,6 @@ import type { CalloutTitle, CalloutContent, Callout } from "mdast-util-callout";
 import { Handlers } from "mdast-util-to-hast";
 import { calloutExt } from "micromark-extension-callout";
 import { Plugin } from "unified";
-
-// @ts-ignore
-// import calloutScript from "../components/scripts/callout.inline.js";
 
 const calloutMapping = {
 	note: "note",
@@ -80,25 +78,29 @@ export function calloutHandlers(): Handlers {
 					"data-callout": type,
 					open: collapsible && initOpen,
 				},
-				titled ? null : calloutTitle(h("span", { class: "callout-type" }, node.calloutType)),
+				titled
+					? null
+					: calloutTitle(collapsible, h("span", { class: "callout-type" }, node.calloutType)),
 				state.all(node),
 			);
 		},
-		calloutTitle(state, node: CalloutTitle) {
-			return calloutTitle(...state.all(node));
+		calloutTitle(state, node: CalloutTitle, parent) {
+			assertEqual(parent?.type, "callout");
+			const collapsible = parent.collapse === "closed" || parent.collapse === "open";
+			return calloutTitle(collapsible, ...state.all(node));
 		},
 		calloutContent(state, node: CalloutContent) {
 			return h("div", { class: "callout-content" }, state.all(node));
 		},
 	};
 
-	function calloutTitle(...title: ElementContent[]): Element {
+	function calloutTitle(collapsible: boolean, ...title: ElementContent[]): Element {
 		return h(
 			"summary",
 			{ class: "callout-title" },
 			h("div", { class: "callout-icon" }),
 			h("div", { class: "callout-title-inner" }, title),
-			h("div", { class: "fold-callout-icon" }),
+			collapsible ? h("div", { class: "fold-callout-icon" }) : null,
 		);
 	}
 }

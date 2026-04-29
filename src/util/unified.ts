@@ -18,6 +18,7 @@ import { rehypeBlockId, remarkBlockId } from "remark-rehype-block-id";
 import { wikilinkHandlers, wikilinkParse } from "./wikilink.js";
 import { calloutHandlers, calloutParse } from "./callout.js";
 import { hashtagHandlers, hashtagParse } from "./hashtag.js";
+import { mermaidVisit } from "./mermaid.js";
 
 export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 	return unified()
@@ -54,6 +55,7 @@ export function createHtmlProcessor(
 				tex: { macros },
 			},
 		)
-		.use(rehypeStarryNight, { grammars: allGrammars })
+		.use(rehypeStarryNight, { grammars: allGrammars, plainText: ["mermaid"] })
+		.use(mermaidVisit())
 		.use(rehypeRaw);
 }

@@ -28,7 +28,6 @@ export function hashtagParse(): Plugin {
 
 export function hashtagHandlers(): Handlers {
 	return {
-		// for now we just remove them
-		hashtag: (_, { value }: Hashtag) => h("span", { class: "hashtag" }, "#" + value),
+		hashtag: (_, { value }: Hashtag) => h("span", { class: "hashtag", role: "none" }, "#" + value),
 	};
 }

@@ -4,11 +4,15 @@ import { Article } from "../Article.js";
 import { ProcessedFile } from "../../emitters.js";
 import { Root as MdRoot } from "mdast";
 
-export const ContentPage: FunctionComponent<{ fileData: ProcessedFile<MdRoot>["data"] }> = ({
+export const ContentPage: FunctionComponent<{ file: ProcessedFile<MdRoot> }> = ({
 	children,
-	fileData,
-}) => (
-	<Page title={fileData?.data?.title} scripts={Object.values(fileData?.scripts ?? {})}>
-		<Article>{children}</Article>
-	</Page>
-);
+	file,
+}) => {
+	const scripts = Object.values(file.data?.scripts ?? {});
+
+	return (
+		<Page title={file.data?.title!} scripts={scripts}>
+			<Article>{children}</Article>
+		</Page>
+	);
+};
