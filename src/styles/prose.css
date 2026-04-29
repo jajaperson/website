@@ -7,6 +7,10 @@
 		@apply block;
 	}
 
+	:target {
+		@apply animate-highlight;
+	}
+
 	a {
 		@apply font-medium underline underline-offset-2 text-secondary;
 
