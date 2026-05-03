@@ -139,4 +139,9 @@
 			@apply not-dark:invert;
 		}
 	}
+
+	.QED::after {
+		content: "■" !important;
+		float: right;
+	}
 }
