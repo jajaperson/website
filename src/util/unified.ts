@@ -55,7 +55,10 @@ export function createHtmlProcessor(
 				tex: { macros },
 			},
 		)
-		.use(rehypeStarryNight, { grammars: allGrammars, plainText: ["mermaid"] })
+		.use(rehypeStarryNight, {
+			grammars: allGrammars,
+			plainText: ["mermaid", "dataview", "BlooP", "FlooP"],
+		})
 		.use(mermaidVisit())
 		.use(rehypeRaw);
 }

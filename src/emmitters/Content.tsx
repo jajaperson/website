@@ -16,6 +16,7 @@ import { VFile } from "vfile";
 import { renderJsx } from "../util/jsx.js";
 import { ContentPage } from "../components/pages/ContentPage.js";
 import { createHtmlProcessor, createMdProcessor } from "../util/unified.js";
+import { reporter } from "vfile-reporter";
 
 export class Content implements DynamicEmitter<string, MdRoot> {
 	symbol = Symbol();
@@ -58,13 +59,15 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	}
 
 	async *parse(ctx: BuildCtx, current: ProcessedFile<string>, all: ProcessedFile<string>[]) {
-		// if (!current.origin?.endsWith("1-dimensional irreps of a finite symmetric group.md")) return; // debugging
 		assert(this.mdProcessor);
 
-		const vf = new VFile({ value: current.content, data: { file: current } });
+		const vf = new VFile({ value: current.content, data: { file: current }, path: current.origin });
 
 		const mdast = this.mdProcessor.parse(vf);
 		const transformed = await this.mdProcessor.run(mdast, vf);
+
+		if (vf.messages.some((msg) => msg.fatal !== undefined))
+			console.log(reporter(vf, { traceLimit: 1 }));
 
 		yield {
 			...current,
@@ -79,7 +82,13 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 	async *render(ctx: BuildCtx, current: ProcessedFile<MdRoot>) {
 		assert(this.hProcessor);
 
-		const hast = await this.hProcessor.run(current.content, new VFile({ data: { file: current } }));
+		const vf = new VFile({ data: { file: current }, path: current.origin });
+
+		const hast = await this.hProcessor.run(current.content, vf);
+
+		if (vf.messages.some((msg) => msg.fatal !== undefined))
+			console.log(reporter(vf, { traceLimit: 1 }));
+
 		yield write(
 			ctx,
 			current.slug,
