@@ -25,6 +25,7 @@
     "gray-matter": "^4.0.3",
     "hast-util-class-list": "^2.0.1",
     "hast-util-to-jsx-runtime": "^2.3.6",
+    "hast-util-to-string": "^3.0.1",
     "hast-util-to-text": "^4.0.2",
     "hastscript": "^9.0.1",
     "is-absolute-url": "^5.0.0",
@@ -56,12 +57,14 @@
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
+    "unist-util-find": "^3.0.0",
     "unist-util-visit-parents": "^6.0.2",
     "vfile": "^6.0.3",
     "vfile-reporter": "^8.1.1",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "prettier": "^3.8.3",
     "tsx": "^4.21.0"
   },

@@ -3,5 +3,9 @@
 	"quoteProps": "as-needed",
 	"trailingComma": "all",
 	"semi": true,
-	"useTabs": true
+	"useTabs": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrder": ["<BUILTIN_MODULES>", "<THIRD_PARTY_MODULES>", "^[./]"],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
