@@ -1,24 +1,25 @@
-import type { Processor } from "unified";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
+import rehypeMathJaxChtml from "@jajaperson/rehype-mathjax/chtml";
 import remarkMath from "@jajaperson/remark-math";
+import { all as allGrammars } from "@wooorm/starry-night";
+import { Root as HtmlRoot } from "hast";
+import type { Root as MdRoot } from "mdast";
+import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
+import rehypeStarryNight from "rehype-starry-night";
 import remarkGfm from "remark-gfm";
 import remarkInlineFootnote from "remark-inline-footnote";
-import rehypeMathJaxSvg from "@jajaperson/rehype-mathjax/svg";
-import rehypeStarryNight from "rehype-starry-night";
-import rehypeRaw from "rehype-raw";
-import type { Root as MdRoot } from "mdast";
-import { Macros } from "./loadPreamble.js";
+import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeSlug from "rehype-slug";
-import { Root as HtmlRoot } from "hast";
-import { ProcessedFile } from "../emitters.js";
-import { all as allGrammars } from "@wooorm/starry-night";
 import { rehypeBlockId, remarkBlockId } from "remark-rehype-block-id";
-import { wikilinkHandlers, wikilinkParse } from "./wikilink.js";
+import type { Processor } from "unified";
+import { unified } from "unified";
+
+import { PreprocessedFile } from "../emitters.js";
 import { calloutHandlers, calloutParse } from "./callout.js";
 import { hashtagHandlers, hashtagParse } from "./hashtag.js";
+import { Macros } from "./loadPreamble.js";
 import { mermaidVisit } from "./mermaid.js";
+import { wikilinkHandlers, wikilinkParse } from "./wikilink.js";
 
 export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 	return unified()
@@ -33,7 +34,7 @@ export function createMdProcessor(): Processor<MdRoot, MdRoot, MdRoot> {
 }
 
 export function createHtmlProcessor(
-	all: ProcessedFile<any>[],
+	all: PreprocessedFile[],
 	{
 		macros,
 	}: {
@@ -49,10 +50,13 @@ export function createHtmlProcessor(
 		.use(rehypeBlockId)
 		.use(rehypeSlug)
 		.use(
-			rehypeMathJaxSvg,
+			rehypeMathJaxChtml,
 			// @ts-ignore don't really know why
 			{
 				tex: { macros },
+				chtml: {
+					fontURL: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-newcm-font/chtml/woff2",
+				},
 			},
 		)
 		.use(rehypeStarryNight, {

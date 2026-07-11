@@ -1,11 +1,13 @@
-// import { Mutex } from "async-mutex";
-import { rm } from "fs/promises";
-import { Argv, BuildCtx } from "./util/ctx.js";
-import { PerfTimer } from "./util/perf.js";
 import { spawn } from "child_process";
+import { rm } from "fs/promises";
+
+import { ok as assert } from "devlop";
+
 import cfg from "../build.config.js";
+import { Emitter, isDynamic, preprocessFiles } from "./emitters.js";
+import { Argv, BuildCtx } from "./util/ctx.js";
 import { glob } from "./util/glob.js";
-import { Emitter, parseFiles, preprocessFiles, renderFiles } from "./emitters.js";
+import { PerfTimer } from "./util/perf.js";
 
 export default async function (argv: Argv) {
 	const perf = new PerfTimer();
@@ -24,8 +26,6 @@ export default async function (argv: Argv) {
 		emitters,
 		emitterKeys,
 	};
-
-	// const release = await mtx.acquire();
 
 	perf.addEvent("clean");
 	await rm(argv.output, { recursive: true, force: true });
@@ -48,28 +48,27 @@ export default async function (argv: Argv) {
 	});
 
 	perf.addEvent("preprocess");
+	const all = await Array.fromAsync(
+		preprocessFiles(ctx, glob("**/*", cfg.vault, cfg.ignorePatterns)),
+	);
+	console.log(`Preprocessed ${all.length} files for output in ${perf.timeSince("preprocess")}`);
 
-	// We use an unsugared `.then` chain so that the arrays don't hang around
-	// after each step
-	await Array.fromAsync(preprocessFiles(ctx, glob("**/*", cfg.vault, cfg.ignorePatterns)))
-		.then(async (preprocessed) => {
-			console.log(
-				`Preprocessed ${preprocessed.length} files for output in ${perf.timeSince("preprocess")}`,
-			);
+	perf.addEvent("renderInit");
+	await Promise.all(
+		ctx.emitterKeys.map(async (k) => {
+			const emitter = ctx.emitters[k];
+			if ("preRender" in emitter) await emitter.preRender(ctx, all);
+		}),
+	);
+	console.log(`Initialized renderers in ${perf.timeSince("renderInit")}`);
 
-			perf.addEvent("parse");
+	perf.addEvent("parseRender");
+	for (const file of all) {
+		const emitter = ctx.emitters[file.emitter];
+		assert(isDynamic(emitter), "expected dynamic emitter");
 
-			return Array.fromAsync(parseFiles(ctx, preprocessed));
-		})
-		.then((parsed) => {
-			console.log(`Parsed ${parsed.length} files in ${perf.timeSince("parse")}`);
-
-			perf.addEvent("render");
-			return Array.fromAsync(renderFiles(ctx, parsed));
-		})
-		.then((slugs) => {
-			console.log(
-				`Rendered ${slugs.length} files to ${ctx.argv.output} in ${perf.timeSince("render")}`,
-			);
-		});
+		const out = await emitter.render(ctx, file, all);
+		console.log(out);
+	}
+	console.log(`Parsed and rendered dynamic output in ${perf.timeSince("renderInit")}`);
 }

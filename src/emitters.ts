@@ -1,9 +1,7 @@
-import { ok as assert } from "devlop";
 import { BuildCtx } from "./util/ctx.js";
-import { FullSlug, FilePath, VaultPath } from "./util/path.js";
-import { styleText } from "node:util";
+import { FilePath, FullSlug, VaultPath } from "./util/path.js";
 
-export type ProcessedFile<Content = string> = {
+export type PreprocessedFile = {
 	/** Destination slug for this file once fully processed */
 	slug: FullSlug;
 	/** File in vault whence this file originated */
@@ -18,16 +16,11 @@ export type ProcessedFile<Content = string> = {
 	};
 	/** Symbol for the emitter responsible for this file. Should match `emitter.symbol`. */
 	emitter: symbol;
-} & (Content extends void
-	? {}
-	: {
-			/** Processed content of the file */
-			content: Content;
-		});
+};
 
 declare module "vfile" {
 	interface DataMap {
-		file: ProcessedFile<any>;
+		file: PreprocessedFile;
 	}
 }
 
@@ -36,43 +29,27 @@ interface BaseEmitter {
 }
 
 export interface StaticEmitter extends BaseEmitter {
-	render(ctx: BuildCtx, all: ProcessedFile<any>[]): AsyncIterableIterator<FilePath>;
+	render(ctx: BuildCtx, all: PreprocessedFile[]): AsyncIterableIterator<FilePath>;
 }
 
-export interface DynamicEmitter<
-	PreContent = string,
-	ParsedContent = PreContent,
-> extends BaseEmitter {
-	preProcess(ctx: BuildCtx, vp: VaultPath): AsyncIterable<ProcessedFile<PreContent>>;
+export interface DynamicEmitter extends BaseEmitter {
+	preProcess(ctx: BuildCtx, vp: VaultPath): AsyncIterableIterator<PreprocessedFile>;
 
-	preParse?(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void;
+	preRender?(ctx: BuildCtx, all: PreprocessedFile[]): Promise<void> | void;
 
-	parse?(
-		ctx: BuildCtx,
-		current: ProcessedFile<PreContent>,
-		all: ProcessedFile<any>[],
-	): AsyncIterable<ProcessedFile<ParsedContent>>;
-	/** Should yield the slug for each emitted file */
-
-	preRender?(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void;
-
-	render(
-		ctx: BuildCtx,
-		current: ProcessedFile<ParsedContent>,
-		all: ProcessedFile<any>[],
-	): AsyncIterable<FilePath>;
+	render(ctx: BuildCtx, current: PreprocessedFile, all: PreprocessedFile[]): Promise<FilePath>;
 }
 
-export type Emitter = DynamicEmitter<any> | StaticEmitter;
+export type Emitter = DynamicEmitter | StaticEmitter;
 
-export function isDynamic(emitter: Emitter): emitter is DynamicEmitter<any> {
+export function isDynamic(emitter: Emitter): emitter is DynamicEmitter {
 	return "preProcess" in emitter;
 }
 
 export async function* preprocessFiles(
 	ctx: BuildCtx,
 	fps: AsyncIterable<VaultPath>,
-): AsyncIterableIterator<ProcessedFile<any>> {
+): AsyncIterableIterator<PreprocessedFile> {
 	for await (const fp of fps) {
 		for (const key of ctx.emitterKeys) {
 			const emitter = ctx.emitters[key];
@@ -84,59 +61,59 @@ export async function* preprocessFiles(
 	}
 }
 
-export async function* parseFiles(
-	ctx: BuildCtx,
-	all: ProcessedFile<any>[],
-): AsyncIterable<ProcessedFile<any>> {
-	await Promise.all(
-		ctx.emitterKeys.map(async (k) => {
-			const emitter = ctx.emitters[k];
-			if ("preParse" in emitter) await emitter.preParse(ctx, all);
-		}),
-	);
+// export async function* parseFiles(
+// 	ctx: BuildCtx,
+// 	all: ProcessedFile<any>[],
+// ): AsyncIterable<ProcessedFile<any>> {
+// 	await Promise.all(
+// 		ctx.emitterKeys.map(async (k) => {
+// 			const emitter = ctx.emitters[k];
+// 			if ("preParse" in emitter) await emitter.preParse(ctx, all);
+// 		}),
+// 	);
 
-	for (const vf of all) {
-		const emitter = ctx.emitters[vf.emitter];
-		assert(isDynamic(emitter), "expected dynamic emitter");
-		if (typeof emitter.parse === "function") {
-			try {
-				yield* emitter.parse(ctx, vf, all);
-			} catch (e) {
-				console.log(styleText("red", `Error parsing \`${vf.origin ?? vf.slug}\`:`));
-				throw e;
-			}
-		} else {
-			yield vf;
-		}
-	}
-}
+// 	for (const vf of all) {
+// 		const emitter = ctx.emitters[vf.emitter];
+// 		assert(isDynamic(emitter), "expected dynamic emitter");
+// 		if (typeof emitter.parse === "function") {
+// 			try {
+// 				yield* emitter.parse(ctx, vf, all);
+// 			} catch (e) {
+// 				console.log(styleText("red", `Error parsing \`${vf.origin ?? vf.slug}\`:`));
+// 				throw e;
+// 			}
+// 		} else {
+// 			yield vf;
+// 		}
+// 	}
+// }
 
-export async function* renderFiles(
-	ctx: BuildCtx,
-	all: ProcessedFile<any>[],
-): AsyncIterableIterator<FilePath> {
-	for (const k of ctx.emitterKeys) {
-		const emitter = ctx.emitters[k];
-		if (!isDynamic(emitter)) {
-			yield* emitter.render(ctx, all);
-		}
-	}
+// export async function* renderFiles(
+// 	ctx: BuildCtx,
+// 	all: ProcessedFile<any>[],
+// ): AsyncIterableIterator<FilePath> {
+// 	for (const k of ctx.emitterKeys) {
+// 		const emitter = ctx.emitters[k];
+// 		if (!isDynamic(emitter)) {
+// 			yield* emitter.render(ctx, all);
+// 		}
+// 	}
 
-	await Promise.all(
-		ctx.emitterKeys.map(async (k) => {
-			const emitter = ctx.emitters[k];
-			if ("preRender" in emitter) await emitter.preRender(ctx, all);
-		}),
-	);
+// 	await Promise.all(
+// 		ctx.emitterKeys.map(async (k) => {
+// 			const emitter = ctx.emitters[k];
+// 			if ("preRender" in emitter) await emitter.preRender(ctx, all);
+// 		}),
+// 	);
 
-	for (const vf of all) {
-		const emitter = ctx.emitters[vf.emitter];
-		assert(isDynamic(emitter), "expected dynamic emitter");
-		try {
-			yield* emitter.render(ctx, vf, all);
-		} catch (e) {
-			console.log(styleText("red", `Error rendering \`${vf.origin ?? vf.slug}\`:`));
-			throw e;
-		}
-	}
-}
+// 	for (const vf of all) {
+// 		const emitter = ctx.emitters[vf.emitter];
+// 		assert(isDynamic(emitter), "expected dynamic emitter");
+// 		try {
+// 			yield* emitter.render(ctx, vf, all);
+// 		} catch (e) {
+// 			console.log(styleText("red", `Error rendering \`${vf.origin ?? vf.slug}\`:`));
+// 			throw e;
+// 		}
+// 	}
+// }

@@ -1,4 +1,8 @@
+import { dirname, relative } from "node:path/posix";
+
+import remarkMath from "@jajaperson/remark-math";
 import { ok as assert } from "devlop";
+import type { Element } from "hast";
 import { h } from "hastscript";
 import isAbsoluteUrl from "is-absolute-url";
 import type { Handler, Handlers } from "mdast-util-to-hast";
@@ -9,15 +13,13 @@ import type {
 	WikilinkEmbed,
 } from "mdast-util-wikilink-syntax";
 import { wikilinkFromMarkdown } from "mdast-util-wikilink-syntax";
-import { resolveSlugToFile, splitAnchor } from "./path.js";
-import { dirname, relative } from "node:path/posix";
-import type { Element } from "hast";
-import type { Plugin } from "unified";
-import { unified } from "unified";
 import { wikilink } from "micromark-extension-wikilink-syntax";
 import remarkParse from "remark-parse";
-import remarkMath from "@jajaperson/remark-math";
-import type { ProcessedFile } from "../emitters.js";
+import type { Plugin } from "unified";
+import { unified } from "unified";
+
+import type { PreprocessedFile } from "../emitters.js";
+import { resolveSlugToFile, splitAnchor } from "./path.js";
 
 // ^\|([^\n])+\|\n(\|) -> matches the header row
 // ( ?:?-{3,}:? ?\|)+  -> matches the header row separator
@@ -36,7 +38,7 @@ export function wikilinkParse(): Plugin {
 	};
 }
 
-export function wikilinkHandlers(all: ProcessedFile<any>[]): Handlers {
+export function wikilinkHandlers(all: PreprocessedFile[]): Handlers {
 	const mathLinkPipeline = unified().use(remarkParse).use(remarkMath);
 
 	return {
