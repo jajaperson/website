@@ -7,13 +7,8 @@ Under construction...
 In order to build the site
 
 1. Using `globby` we get an asynct iterator of all files in `vault/`.
-2. Preprocessors are applied to each path,
-   which optionally yield preprocessed files for the next phase.
-   Emitters should tag preprocessed files with a symbol to mark the originating emitter.
-3. All preprocessed input from all emitters is gathered in a single array.
-4. Every preprocessed file in the array is passed to its parser,
-   which is intended to emit syntax trees.
-   Parsers also have access to other preprocessed files
-5. All parsed input from all emitters is gathered in a single array.
-6. Every parsed file is passed to to its renderer, which output the `public/` files.
-   Renderers also have access to other parsed fies.
+2. Preprocessors are applied to each path to extract metadata and determine
+   the paths of files to be updated. This information is gathered into an
+   array.
+3. The file metadata objects are passed to the renderers one by one, as well as
+   the entire array of metadata (for things like cross-linking).
