@@ -1,10 +1,11 @@
 import { some } from "iterable-utilities";
+
+import { DynamicEmitter, PreprocessedFile } from "../emitters.js";
 import { BuildCtx } from "../util/ctx.js";
-import { sluggifyVaultPath, VaultPath } from "../util/path.js";
-import { DynamicEmitter, ProcessedFile } from "../emitters.js";
+import { VaultPath, sluggifyVaultPath } from "../util/path.js";
 import { copy } from "../util/write.js";
 
-export class Attachments implements DynamicEmitter<void> {
+export class Attachments implements DynamicEmitter {
 	symbol = Symbol();
 	attachmentDirs: string[];
 
@@ -22,9 +23,9 @@ export class Attachments implements DynamicEmitter<void> {
 		};
 	}
 
-	async *render(ctx: BuildCtx, current: ProcessedFile<void>) {
+	async render(ctx: BuildCtx, current: PreprocessedFile) {
 		const { origin, slug } = current;
 
-		yield await copy(ctx, origin!, slug);
+		return await copy(ctx, origin!, slug);
 	}
 }

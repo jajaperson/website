@@ -1,24 +1,26 @@
-import matter from "gray-matter";
-import type { DynamicEmitter, ProcessedFile } from "../emitters.js";
 import { readFile } from "node:fs/promises";
 import { basename, join } from "node:path/posix";
-import { sluggifyVaultPath } from "../util/path.js";
-import type { VaultPath } from "../util/path.js";
+
+import { ok as assert } from "devlop";
+import matter from "gray-matter";
+import type { Root as HtmlRoot } from "hast";
 import type { Root as MdRoot } from "mdast";
 import type { Processor } from "unified";
-import type { BuildCtx } from "../util/ctx.js";
-import { write } from "../util/write.js";
-import { htmlToJsx } from "../util/jsx.js";
-import { loadMacrosFromPreamble, Macros } from "../util/loadPreamble.js";
-import { ok as assert } from "devlop";
-import type { Root as HtmlRoot } from "hast";
 import { VFile } from "vfile";
-import { renderJsx } from "../util/jsx.js";
-import { ContentPage } from "../components/pages/ContentPage.js";
-import { createHtmlProcessor, createMdProcessor } from "../util/unified.js";
 import { reporter } from "vfile-reporter";
 
-export class Content implements DynamicEmitter<string, MdRoot> {
+import { ContentPage } from "../components/pages/ContentPage.js";
+import type { DynamicEmitter, PreprocessedFile } from "../emitters.js";
+import type { BuildCtx } from "../util/ctx.js";
+import { htmlToJsx } from "../util/jsx.js";
+import { renderJsx } from "../util/jsx.js";
+import { Macros, loadMacrosFromPreamble } from "../util/loadPreamble.js";
+import { sluggifyVaultPath } from "../util/path.js";
+import type { VaultPath } from "../util/path.js";
+import { createHtmlProcessor, createMdProcessor } from "../util/unified.js";
+import { write } from "../util/write.js";
+
+export class Content implements DynamicEmitter {
 	symbol = Symbol();
 
 	macros: Macros;
@@ -29,6 +31,12 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 		this.macros = loadMacrosFromPreamble(preamble);
 	}
 
+	/**
+	 * Content preprocessor
+	 *
+	 * - Some string replacements
+	 * - Process frontmatter
+	 */
 	async *preProcess(ctx: BuildCtx, vp: VaultPath) {
 		if (!vp.endsWith(".md")) return;
 
@@ -37,7 +45,7 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 			String.raw`\Set`,
 			String.raw`{\cat{Set}}`,
 		); // bodge
-		const { content, data } = matter(rawFile);
+		const { data } = matter(rawFile);
 
 		// Make sure the frontmatter contains a public tag
 		if (!Array.isArray(data.tags)) return;
@@ -48,20 +56,30 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 		yield {
 			origin: vp,
 			slug: sluggifyVaultPath(vp),
-			content,
 			data,
 			emitter: this.symbol,
 		};
 	}
 
-	preParse(_: BuildCtx, all: ProcessedFile<string>[]): void {
+	preRender(ctx: BuildCtx, all: PreprocessedFile[]): Promise<void> | void {
 		this.mdProcessor = createMdProcessor();
+		this.hProcessor = createHtmlProcessor(all, { macros: this.macros });
 	}
 
-	async *parse(ctx: BuildCtx, current: ProcessedFile<string>, all: ProcessedFile<string>[]) {
+	async render(ctx: BuildCtx, current: PreprocessedFile) {
 		assert(this.mdProcessor);
 
-		const vf = new VFile({ value: current.content, data: { file: current }, path: current.origin });
+		const fp = join(ctx.cfg.vault, current.origin!); // bodge
+		const rawFile = (await readFile(fp, "utf-8")).replaceAll(
+			String.raw`\Set`,
+			String.raw`{\cat{Set}}`,
+		); // bodge
+
+		const vf = new VFile({
+			value: matter(rawFile).content,
+			data: { file: current },
+			path: current.origin,
+		});
 
 		const mdast = this.mdProcessor.parse(vf);
 		const transformed = await this.mdProcessor.run(mdast, vf);
@@ -69,27 +87,14 @@ export class Content implements DynamicEmitter<string, MdRoot> {
 		if (vf.messages.some((msg) => msg.fatal !== undefined))
 			console.log(reporter(vf, { traceLimit: 1 }));
 
-		yield {
-			...current,
-			content: transformed,
-		};
-	}
-
-	preRender(ctx: BuildCtx, all: ProcessedFile<any>[]): Promise<void> | void {
-		this.hProcessor = createHtmlProcessor(all, { macros: this.macros });
-	}
-
-	async *render(ctx: BuildCtx, current: ProcessedFile<MdRoot>) {
 		assert(this.hProcessor);
 
-		const vf = new VFile({ data: { file: current }, path: current.origin });
-
-		const hast = await this.hProcessor.run(current.content, vf);
+		const hast = await this.hProcessor.run(transformed, vf);
 
 		if (vf.messages.some((msg) => msg.fatal !== undefined))
 			console.log(reporter(vf, { traceLimit: 1 }));
 
-		yield write(
+		return await write(
 			ctx,
 			current.slug,
 			".html",

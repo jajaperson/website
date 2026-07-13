@@ -1,10 +1,11 @@
-import type { FunctionComponent } from "preact";
-import { Page } from "./Page.js";
-import { Article } from "../Article.js";
-import { ProcessedFile } from "../../emitters.js";
 import { Root as MdRoot } from "mdast";
+import type { FunctionComponent } from "preact";
 
-export const ContentPage: FunctionComponent<{ file: ProcessedFile<MdRoot> }> = ({
+import { PreprocessedFile } from "../../emitters.js";
+import { Article } from "../Article.js";
+import { Page } from "./Page.js";
+
+export const ContentPage: FunctionComponent<{ file: PreprocessedFile<MdRoot> }> = ({
 	children,
 	file,
 }) => {

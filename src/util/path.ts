@@ -1,9 +1,9 @@
 /**
  * Based on <https://github.com/jackyzha0/quartz/blob/v4/quartz/util/path.ts>
  */
-
 import { slug as slugAnchor } from "github-slugger";
-import { ProcessedFile } from "../emitters.js";
+
+import { PreprocessedFile } from "../emitters.js";
 
 /** Utility for constructing branded aliases of `string` */
 type SlugLike<T> = string & { __brand: T };
@@ -106,14 +106,14 @@ export function getFileExtension(s: string): string | undefined {
  */
 export function resolveSlugToFile<T>(
 	target: string,
-	all: Iterable<ProcessedFile<T>>,
+	all: Iterable<PreprocessedFile>,
 	sluggifyDestination = true,
-): ProcessedFile<T> | undefined {
+): PreprocessedFile | undefined {
 	const targetCanonical = (sluggifyDestination ? sluggifyVaultPath(target as VaultPath) : target)
 		.toLowerCase()
 		.normalize("NFD");
 
-	const matches: ProcessedFile<T>[] = [];
+	const matches: PreprocessedFile[] = [];
 
 	for (const vf of all) {
 		const slugCanonical = vf.slug.toLowerCase().normalize("NFD");
