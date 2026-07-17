@@ -13,8 +13,8 @@ importers:
   .:
     dependencies:
       '@jajaperson/rehype-mathjax':
-        specifier: ^7.1.1
-        version: 7.1.1
+        specifier: ^7.1.2
+        version: 7.1.2
       '@jajaperson/remark-math':
         specifier: ^6.0.0
         version: 6.0.0
@@ -565,8 +565,8 @@ packages:
   '@iconify/utils@3.1.4':
     resolution: {integrity: sha512-b1S7B1k9ohZ+iNTi2ATxbRYG9fTrJmUT0rc46bvVnNxqNRGW7dyo/vRREwyniI5IRN2RSJHDcm+s3BjWrSAjHw==}
 
-  '@jajaperson/rehype-mathjax@7.1.1':
-    resolution: {integrity: sha512-HwG9R4WBG8jcOR2qyvPughlsgP+L0PNs2L1SavXyp3BA/a4IRtD7r/BEvIEqQT3YI5AWnCayhxq6HwP+syZyjA==}
+  '@jajaperson/rehype-mathjax@7.1.2':
+    resolution: {integrity: sha512-JIC09vBcWjBwap7gCe0/RllPCEFBSajRkkxI76JsBRC+5qal3fvFEY3yeAGr6X9P2yueiwowdk3q9RDYdPkMwQ==}
 
   '@jajaperson/remark-math@6.0.0':
     resolution: {integrity: sha512-pW9M3KNEBL5PPaPkNcRle4qwJ/arOUDZ3gNw/FoeklBXD1YXGpq91dPjAVtqg13FYiO6QJQoleopwwHFJd+S1w==}
@@ -2410,7 +2410,7 @@ snapshots:
       '@iconify/types': 2.0.0
       import-meta-resolve: 4.2.0
 
-  '@jajaperson/rehype-mathjax@7.1.1':
+  '@jajaperson/rehype-mathjax@7.1.2':
     dependencies:
       '@mathjax/src': 4.1.3
       '@types/hast': 3.0.5
