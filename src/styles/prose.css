@@ -62,7 +62,7 @@
 	p {
 		@apply mb-0;
 
-		+ p {
+		+ :not(mjx-container) {
 			@apply mt-8;
 		}
 	}
