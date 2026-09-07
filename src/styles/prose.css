@@ -140,11 +140,11 @@
 		@apply mx-auto;
 
 		&[src$="#invert"] {
-			@apply dark:invert;
+			@apply dark:invert dark:hue-rotate-180;
 		}
 
 		&[src$="#invertW"] {
-			@apply not-dark:invert;
+			@apply not-dark:invert not-dark:hue-rotate-180;
 		}
 	}
 
